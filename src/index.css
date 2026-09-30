@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #FAF6E9;
+    color: #3D2E24;
+    font-family: 'Nunito', system-ui, sans-serif;
+    /* Suave textura de fondo con granito vegetal orgánico */
+    background-image: 
+      radial-gradient(#e5b837 0.75px, transparent 0.75px),
+      radial-gradient(#b24016 0.5px, #FAF6E9 0.5px);
+    background-size: 30px 30px;
+    background-position: 0 0, 15px 15px;
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Fredoka', 'Quicksand', system-ui, sans-serif;
+  }
+}
+
+/* Forma Hexagonal para el Sistema de Panal */
+.clip-hexagon {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+/* Efecto de Pincelada Waldorf / Panal */
+.brush-banner {
+  position: relative;
+  display: inline-block;
+}
+.brush-banner::before {
+  content: "";
+  position: absolute;
+  inset: -6px -16px;
+  background: #E5B837;
+  border-radius: 9999px 12px 9999px 14px;
+  z-index: -1;
+  transform: rotate(-0.8deg);
+  box-shadow: 0 4px 12px rgba(229, 184, 55, 0.25);
+}
+
+.brush-banner-terracota::before {
+  background: #B24016;
+  border-radius: 12px 9999px 14px 9999px;
+  transform: rotate(0.6deg);
+  box-shadow: 0 4px 12px rgba(178, 64, 22, 0.25);
+}
+
+/* Animación sutil de respiración/miel dorada */
+@keyframes honeyPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.95;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+}
+
+.animate-honey-glow {
+  animation: honeyPulse 4s ease-in-out infinite;
+}
+
+/* Scrollbar suave con tonos miel y madera */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF6E9;
+}
+::-webkit-scrollbar-thumb {
+  background: #E5B837;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #B24016;
+}
