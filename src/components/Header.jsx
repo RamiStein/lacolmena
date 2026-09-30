@@ -16,7 +16,7 @@ export function Header({ onOpenAdmin, onDonateClick }) {
         <a href="#" className="flex items-center gap-3 group">
           <div className="relative">
             <img 
-              src="/logo-colmena.png" 
+              src="./logo-colmena.png" 
               alt="Logo Escuela La Colmena" 
               className="h-11 sm:h-14 w-auto object-contain transition-transform group-hover:scale-105 duration-200"
             />

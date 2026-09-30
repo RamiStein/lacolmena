@@ -9,7 +9,7 @@ export function Footer() {
         {/* Columna Identidad */}
         <div className="space-y-3">
           <img 
-            src="/logo-colmena.png" 
+            src="./logo-colmena.png" 
             alt="Escuela La Colmena" 
             className="h-12 w-auto object-contain"
           />

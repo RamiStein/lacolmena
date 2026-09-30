@@ -74,7 +74,7 @@ export function MicaelInfoSection() {
             <div className="relative group">
               <div className="overflow-hidden rounded-3xl border-4 border-white shadow-warm-lg transform -rotate-1 group-hover:rotate-0 transition-transform duration-300">
                 <img 
-                  src="/foto-comunidad.jpg" 
+                  src="./foto-comunidad.jpg" 
                   alt="Encuentro de la comunidad La Colmena en Maschwitz" 
                   className="w-full h-56 sm:h-64 object-cover"
                 />
