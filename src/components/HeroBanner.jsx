@@ -36,7 +36,7 @@ export function HeroBanner({ eventDate, onDonateClick }) {
         {/* Pastilla superior con fecha y temática */}
         <div className="inline-flex items-center gap-2 bg-[#E5B837]/25 border border-[#E5B837]/60 text-[#3D2E24] px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold tracking-wide mb-6 shadow-sm">
           <Calendar className="w-4 h-4 text-[#B24016]" />
-          <span>SÁBADO 22 DE NOVIEMBRE • MASCHWITZ</span>
+          <span>SÁBADO 22 DE NOVIEMBRE • LOMA VERDE</span>
           <span className="text-[#B24016]">●</span>
           <span>DÍA DE ARTE Y FUERZA DE MICAEL</span>
         </div>

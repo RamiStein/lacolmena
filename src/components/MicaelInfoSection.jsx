@@ -65,7 +65,7 @@ export function MicaelInfoSection() {
 
             <div className="pt-2 flex items-center gap-2 text-xs sm:text-sm font-bold text-[#466270]">
               <MapPin className="w-4 h-4 text-[#B24016]" />
-              <span>Predio al aire libre: Los Aromos 3100, Ingeniero Maschwitz, Escobar.</span>
+              <span>Predio al aire libre: Los Aromos 3100, Loma Verde, Escobar.</span>
             </div>
           </div>
 
@@ -75,12 +75,12 @@ export function MicaelInfoSection() {
               <div className="overflow-hidden rounded-3xl border-4 border-white shadow-warm-lg transform -rotate-1 group-hover:rotate-0 transition-transform duration-300">
                 <img 
                   src="./foto-comunidad.jpg" 
-                  alt="Encuentro de la comunidad La Colmena en Maschwitz" 
+                  alt="Encuentro de la comunidad La Colmena en Loma Verde" 
                   className="w-full h-56 sm:h-64 object-cover"
                 />
               </div>
               <span className="block text-center text-[11px] font-bold text-[#3D2E24]/60 mt-1 italic">
-                Encuentro comunitario en nuestro predio de Maschwitz
+                Encuentro comunitario en nuestro predio de Loma Verde
               </span>
             </div>
 

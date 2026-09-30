@@ -15,7 +15,7 @@ export function Footer() {
           />
           <p className="text-xs sm:text-sm text-[#3D2E24]/80 leading-relaxed font-medium">
             Espacio educativo de pedagogía antroposófica y comunitaria. 
-            Acompañando el desarrollo libre y amoroso de las infancias en Maschwitz.
+            Acompañando el desarrollo libre y amoroso de las infancias en Loma Verde.
           </p>
           <p className="text-xs font-hand text-lg text-[#B24016] font-bold">
             "Sostenido por las manos y corazones de sus familias"
@@ -33,7 +33,7 @@ export function Footer() {
           </div>
           <div className="flex items-center gap-2">
             <MapPin className="w-4 h-4 text-[#B24016] shrink-0" />
-            <span><strong>Lugar:</strong> Los Aromos 3100, Ingeniero Maschwitz</span>
+            <span><strong>Lugar:</strong> Los Aromos 3100, Loma Verde, Escobar</span>
           </div>
           <p className="text-xs text-[#3D2E24]/60 pt-2">
             Se suspende por lluvia intensa y se reprograma notificando por los canales oficiales.
@@ -57,7 +57,7 @@ export function Footer() {
 
       <div className="max-w-6xl mx-auto pt-6 border-t border-[#E5B837]/30 flex flex-col sm:flex-row items-center justify-between text-xs text-[#3D2E24]/60 gap-3 text-center sm:text-left">
         <div>
-          © {new Date().getFullYear()} Escuela y Comunidad La Colmena • Maschwitz, Buenos Aires.
+          © {new Date().getFullYear()} Escuela y Comunidad La Colmena • Loma Verde, Escobar, Buenos Aires.
         </div>
         <div className="flex items-center gap-1 font-medium">
           <span>Tejido con amor para la Kermess de Micael</span>

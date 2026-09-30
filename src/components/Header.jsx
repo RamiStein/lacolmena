@@ -8,7 +8,7 @@ export function Header({ onOpenAdmin, onDonateClick }) {
       <div className="bg-[#B24016] text-[#FAF6E9] text-xs sm:text-sm font-medium py-1.5 px-4 text-center flex items-center justify-center gap-2 tracking-wide">
         <span className="inline-block animate-pulse">✨</span>
         <span>Campaña Comunitaria 2026: <strong>Kermess y Fiesta de Micael</strong> — 22 de Noviembre</span>
-        <span className="hidden md:inline">• Los Aromos 3100, Maschwitz</span>
+        <span className="hidden md:inline">• Los Aromos 3100, Loma Verde</span>
       </div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">

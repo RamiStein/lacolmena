@@ -3,7 +3,7 @@ export const INITIAL_CAMPAIGN_DATA = {
   title: "Kermess de Micael 2026",
   subtitle: "Día de Arte, Oficios y Celebración de la Fuerza Interior",
   institution: "Comunidad Escuela La Colmena",
-  location: "Los Aromos 3100, Ingeniero Maschwitz",
+  location: "Los Aromos 3100, Loma Verde, Escobar",
   eventDate: "2026-11-22T10:00:00", // 22 de Noviembre
   targetAmount: 3800000, // Meta comunitaria global ($3.800.000)
   bankDetails: {
@@ -110,7 +110,7 @@ export const INITIAL_CAMPAIGN_DATA = {
       amount: 60000,
       date: "2026-09-27T18:15:00",
       propositoId: "musica-escenario",
-      message: "Esperamos con ansias escuchar los cantos y ver danzar a toda la comunidad bajo los árboles de Maschwitz.",
+      message: "Esperamos con ansias escuchar los cantos y ver danzar a toda la comunidad bajo los árboles de Loma Verde.",
       isAnonymous: false,
       confirmed: true,
     },

@@ -1,6 +1,6 @@
 # 🍯 Sistema de Panal • Crowdfunding La Colmena
 
-Sistema web de financiamiento colectivo comunitario para la **Kermess de Micael 2026** de la **Comunidad Escuela La Colmena** (Ingeniero Maschwitz, Escobar).
+Sistema web de financiamiento colectivo comunitario para la **Kermess de Micael 2026** de la **Comunidad Escuela La Colmena** (Loma Verde, Escobar).
 
 ---
 
