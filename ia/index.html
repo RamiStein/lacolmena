@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>CommandAI • Asistente de Acciones de IA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Barra Superior / Lateral -->
+    <aside class="sidebar">
+      <div class="logo-container">
+        <div class="logo-icon">⚡</div>
+        <div class="logo-text">
+          <h1>Command<span>AI</span></h1>
+          <p class="subtitle">Asistente Ejecutor Móvil</p>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <button class="nav-btn active" data-tab="tab-commander">
+          <span class="icon">💬</span>
+          <span class="label">Comandante</span>
+        </button>
+        <button class="nav-btn" data-tab="tab-actions">
+          <span class="icon">🧩</span>
+          <span class="label">Acciones</span>
+        </button>
+        <button class="nav-btn" data-tab="tab-contacts">
+          <span class="icon">👥</span>
+          <span class="label">Agenda</span>
+        </button>
+        <button class="nav-btn" data-tab="tab-settings">
+          <span class="icon">⚙️</span>
+          <span class="label">Ajustes</span>
+        </button>
+      </nav>
+
+      <div class="system-status-box">
+        <div class="status-indicator online"></div>
+        <div class="status-info">
+          <div class="status-title">Motor</div>
+          <div class="status-detail" id="activeEngineText">IA Local (En Teléfono)</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Contenido Principal -->
+    <main class="main-content">
+      <!-- PESTAÑA: COMANDANTE -->
+      <section id="tab-commander" class="tab-pane active">
+        <header class="section-header">
+          <div>
+            <h2>Centro de Mando</h2>
+            <p>Escribe o presiona el micrófono para pedir una acción concreta.</p>
+          </div>
+          <div class="header-tools">
+            <label class="toggle-control" title="Abre WhatsApp o Gmail automáticamente al procesar">
+              <input type="checkbox" id="autoExecuteToggle" checked>
+              <span class="slider"></span>
+              <span class="toggle-label">Apertura Directa</span>
+            </label>
+          </div>
+        </header>
+
+        <!-- Sugerencias rápidas con 1 toque -->
+        <div class="suggestions-wrapper">
+          <span class="suggestions-label">Órdenes sugeridas:</span>
+          <div class="suggestion-chips">
+            <button class="chip" data-cmd="mándale este mensaje a Agustina por WhatsApp que dice Hola cómo estás">
+              <span class="chip-icon">💬</span> WhatsApp a Agustina
+            </button>
+            <button class="chip" data-cmd="mandá un mail a través de la cuenta ramirovescostain@gmail.com a este mail ejemplo@correo.com diciendo esto en el asunto Gracias y esto en el texto nos vemos pronto">
+              <span class="chip-icon">✉️</span> Mail desde ramirovescostain@gmail.com
+            </button>
+            <button class="chip" data-cmd="crea un recordatorio para las 18:00 revisar la kermess">
+              <span class="chip-icon">⏰</span> Recordatorio 18:00
+            </button>
+            <button class="chip" data-cmd="anota que tengo que comprar miel y harina para la colmena">
+              <span class="chip-icon">📝</span> Guardar nota
+            </button>
+          </div>
+        </div>
+
+        <!-- Feed de Acciones Ejecutadas -->
+        <div class="feed-container" id="feedContainer">
+          <div class="empty-feed-placeholder" id="emptyFeedPlaceholder">
+            <div class="placeholder-icon">🤖</div>
+            <h3>¿Qué acción deseas que realice?</h3>
+            <p>Pedime enviar un WhatsApp, redactar un correo con asunto y texto, guardar notas o crear alarmas.</p>
+          </div>
+        </div>
+
+        <!-- Barra de Entrada de Comandos -->
+        <div class="input-container">
+          <form id="commandForm" class="command-form">
+            <button type="button" class="voice-btn" id="voiceBtn" title="Dictar por voz con el micrófono">
+              <span class="mic-icon">🎙️</span>
+            </button>
+            <textarea 
+              id="promptInput" 
+              placeholder="Escribe tu orden (ej: 'mándale este mensaje a Agustina por WhatsApp que dice Hola cómo estás')..." 
+              rows="1"
+            ></textarea>
+            <button type="submit" class="submit-btn" id="submitBtn">
+              <span>Enviar</span>
+              <span class="send-icon">🚀</span>
+            </button>
+          </form>
+          <div class="input-hints">
+            <span>Funciona directo en tu celular • Sin servidores intermedios</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- PESTAÑA: CATÁLOGO DE ACCIONES -->
+      <section id="tab-actions" class="tab-pane">
+        <header class="section-header">
+          <div>
+            <h2>Catálogo de Acciones</h2>
+            <p>Herramientas modulares que la IA puede ejecutar.</p>
+          </div>
+        </header>
+
+        <div class="actions-grid" id="actionsGrid">
+          <!-- Cargado dinámicamente -->
+        </div>
+
+        <div class="extensibility-guide">
+          <div class="guide-header">
+            <span class="badge">Arquitectura Extensible</span>
+            <h3>¿Cómo se agregan más acciones?</h3>
+            <p>El sistema cuenta con un <strong>Action Registry</strong> modular. Cada acción define sus parámetros (destinatario, texto, hora, etc.) y su ejecutor.</p>
+          </div>
+          <pre class="code-block"><code>// Ejemplo: Agregar acción de Spotify / Calendario
+registerAction({
+  id: 'play_music',
+  name: 'Reproducir música',
+  description: 'Abre Spotify con una canción o artista',
+  parameters: { track: 'string' },
+  execute: (params) => {
+    window.location.href = `spotify:search:${params.track}`;
+  }
+});</code></pre>
+        </div>
+      </section>
+
+      <!-- PESTAÑA: AGENDA DE CONTACTOS -->
+      <section id="tab-contacts" class="tab-pane">
+        <header class="section-header">
+          <div>
+            <h2>Agenda de Contactos</h2>
+            <p>Asocia nombres a números de WhatsApp y correos.</p>
+          </div>
+          <button class="primary-btn" id="btnAddContact">
+            <span>+ Nuevo Contacto</span>
+          </button>
+        </header>
+
+        <div class="contacts-list" id="contactsList">
+          <!-- Renderizado dinámicamente -->
+        </div>
+      </section>
+
+      <!-- PESTAÑA: CONFIGURACIÓN -->
+      <section id="tab-settings" class="tab-pane">
+        <header class="section-header">
+          <div>
+            <h2>Configuración & Cuentas</h2>
+            <p>Tus preferencias se guardan de forma segura en tu propio celular.</p>
+          </div>
+        </header>
+
+        <form id="settingsForm" class="settings-form">
+          <div class="settings-card">
+            <div class="card-title">
+              <span class="card-icon">✉️</span>
+              <div>
+                <h3>Cuenta de Correo</h3>
+                <p>Remitente predeterminado para envíos.</p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Correo Remitente</label>
+              <input type="email" id="defaultEmailSender" value="ramirovescostain@gmail.com" required>
+            </div>
+          </div>
+
+          <div class="settings-card">
+            <div class="card-title">
+              <span class="card-icon">💬</span>
+              <div>
+                <h3>WhatsApp</h3>
+                <p>Prefijo telefónico predeterminado.</p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Prefijo Telefónico</label>
+              <input type="text" id="defaultCountryCode" value="+549" placeholder="+549">
+              <small class="note">+549 para números de celular de Argentina.</small>
+            </div>
+          </div>
+
+          <div class="settings-card">
+            <div class="card-title">
+              <span class="card-icon">🧠</span>
+              <div>
+                <h3>Cerebro de Inteligencia Artificial</h3>
+                <p>Elegí entre el motor local ultrarrápido o conectar una API Key.</p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Proveedor</label>
+              <select id="activeProvider">
+                <option value="heuristico">IA Semántica Local (Gratis, Rápida, Sin API Key)</option>
+                <option value="gemini">Google Gemini (Con API Key)</option>
+                <option value="openai">OpenAI GPT-4o (Con API Key)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Google Gemini API Key (Opcional)</label>
+              <input type="password" id="geminiApiKey" placeholder="AIzaSy...">
+            </div>
+            <div class="form-group">
+              <label>OpenAI API Key (Opcional)</label>
+              <input type="password" id="openaiApiKey" placeholder="sk-proj-...">
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="primary-btn">
+              <span>Guardar Ajustes</span>
+            </button>
+            <span class="save-status" id="settingsSaveStatus"></span>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal para Agregar/Editar Contacto -->
+  <div class="modal-overlay" id="contactModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modalTitle">Nuevo Contacto</h3>
+        <button class="close-btn" id="modalCloseBtn">✕</button>
+      </div>
+      <form id="contactForm">
+        <input type="hidden" id="contactId">
+        <div class="form-group">
+          <label>Nombre del contacto *</label>
+          <input type="text" id="contactName" placeholder="ej: Agustina" required>
+        </div>
+        <div class="form-group">
+          <label>Teléfono celular (WhatsApp)</label>
+          <input type="tel" id="contactPhone" placeholder="ej: 1155551234 o +5491155551234">
+          <small class="note">Permite abrir WhatsApp directo a la conversación.</small>
+        </div>
+        <div class="form-group">
+          <label>Correo electrónico</label>
+          <input type="email" id="contactEmail" placeholder="ej: agustina@correo.com">
+        </div>
+        <div class="form-group">
+          <label>Notas</label>
+          <input type="text" id="contactNotes" placeholder="ej: Amiga, trabajo, etc.">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="cancel-btn" id="modalCancelBtn">Cancelar</button>
+          <button type="submit" class="primary-btn">Guardar Contacto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
