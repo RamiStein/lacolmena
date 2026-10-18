@@ -20,7 +20,7 @@ const DEFAULT_CONTACTS = [
   {
     id: 'c2',
     name: 'Ramiro',
-    phone: '',
+    phone: '', // Editable desde la pantalla
     email: 'ramirovescostain@gmail.com',
     notes: 'Cuenta propia'
   }
@@ -60,6 +60,20 @@ function saveToStorage(key, val) {
   }
 }
 
+// Utilidad para limpiar y formatear números de teléfono a formato internacional WhatsApp
+function cleanPhoneNumber(phone, defaultCountry = '+549') {
+  if (!phone) return '';
+  let cleaned = String(phone).replace(/[^\d+]/g, '');
+  if (!cleaned.startsWith('+')) {
+    const code = (defaultCountry || '+549').replace('+', '');
+    if (cleaned.startsWith('0')) cleaned = cleaned.substring(1);
+    if (!cleaned.startsWith(code)) {
+      cleaned = code + cleaned;
+    }
+  }
+  return cleaned.replace('+', '');
+}
+
 // 2. PARSER SEMÁNTICO HEURÍSTICO LOCAL (Zero-Latency, 100% Offline)
 function parseCommandHeuristic(rawText, contacts) {
   const raw = rawText.trim();
@@ -70,7 +84,7 @@ function parseCommandHeuristic(rawText, contacts) {
     let recipient = '';
     let message = '';
 
-    // Buscar destinatario: "a Agustina por WhatsApp", "para Agustina", "whatsapp a Agustina"
+    // Buscar destinatario: "a ramiro por WhatsApp", "para ramiro", "mandar mensaje a ramiro que dice..."
     const toMatch = raw.match(/(?:a|para)\s+([A-ZÁÉÍÓÚa-záéíóú0-9_+]+)(?:\s+por\s+whatsapp|\s+en\s+whatsapp|\s+al\s+whatsapp|\s*,|\s+que\s+dice|\s+diciendo)/i)
       || raw.match(/(?:whatsapp\s+(?:a|para)\s+)([A-ZÁÉÍÓÚa-záéíóú0-9_+]+)/i)
       || raw.match(/(?:a|para)\s+([A-ZÁÉÍÓÚa-záéíóú0-9_+]+)/i);
@@ -86,7 +100,7 @@ function parseCommandHeuristic(rawText, contacts) {
     if (msgMatch) {
       message = msgMatch[1].trim();
     } else {
-      message = raw.replace(/^(?:mándale|manda|enviar|escribile|mandar)\s+(?:este\s+mensaje|un\s+mensaje)?\s*(?:a|para)?\s*[A-ZÁÉÍÓÚa-záéíóú0-9_+]+\s*(?:por\s+whatsapp)?\s*/i, '').trim();
+      message = raw.replace(/^(?:mándale|manda|mandar|enviar|escribile)\s+(?:este\s+mensaje|un\s+mensaje|mensaje)?\s*(?:a|para)?\s*[A-ZÁÉÍÓÚa-záéíóú0-9_+]+\s*(?:por\s+whatsapp)?\s*/i, '').trim();
     }
 
     // Si aún no se encontró destinatario, comparar con agenda de contactos
@@ -239,23 +253,23 @@ const ACTION_REGISTRY = {
     },
     examples: ['mándale este mensaje a Agustina por WhatsApp que dice Hola cómo estás'],
     execute: (params) => {
-      let phone = '';
-      const recipientName = params.recipient;
-      const contact = state.contacts.find(c => c.name.toLowerCase() === recipientName.toLowerCase() || (c.phone && c.phone.includes(recipientName)));
+      let rawPhone = '';
+      const recipientName = (params.recipient || '').trim();
       
-      if (contact && contact.phone) {
-        phone = contact.phone.replace(/[^\d+]/g, '');
+      // Buscar contacto de manera insensible a mayúsculas/minúsculas
+      const contact = state.contacts.find(c => 
+        c.name.trim().toLowerCase() === recipientName.toLowerCase() ||
+        (c.phone && c.phone.replace(/[^\d]/g, '').includes(recipientName.replace(/[^\d]/g, '')))
+      );
+      
+      if (contact && contact.phone && contact.phone.trim().length > 0) {
+        rawPhone = contact.phone.trim();
       } else if (/[\d]{7,}/.test(recipientName)) {
-        phone = recipientName.replace(/[^\d+]/g, '');
+        rawPhone = recipientName;
       }
 
-      if (phone && !phone.startsWith('+')) {
-        const defaultCode = (state.settings.defaultCountryCode || '+549').replace('+', '');
-        if (phone.startsWith('0')) phone = phone.substring(1);
-        phone = defaultCode + phone;
-      }
-      const cleanPhone = phone.replace('+', '');
-      const encodedMsg = encodeURIComponent(params.message);
+      const cleanPhone = cleanPhoneNumber(rawPhone, state.settings.defaultCountryCode);
+      const encodedMsg = encodeURIComponent(params.message || '');
 
       // Enlaces universales compatibles con celular (Android e iOS)
       const waUrl = cleanPhone 
@@ -265,13 +279,16 @@ const ACTION_REGISTRY = {
         ? `whatsapp://send?phone=${cleanPhone}&text=${encodedMsg}`
         : `whatsapp://send?text=${encodedMsg}`;
 
+      const displayName = contact ? contact.name : recipientName;
+
       return {
         success: true,
         status: cleanPhone ? 'ready' : 'needs_phone',
-        message: cleanPhone ? `Listo para enviar a ${recipientName}` : `Aún no tenés registrado el teléfono de ${recipientName}`,
+        message: cleanPhone ? `Listo para enviar a ${displayName}` : `Aún no tenés registrado el teléfono de ${displayName}`,
         data: {
-          recipient: recipientName,
+          recipient: displayName,
           phone: cleanPhone ? '+' + cleanPhone : '',
+          rawPhone,
           message: params.message,
           waUrl,
           appUrl
@@ -293,12 +310,12 @@ const ACTION_REGISTRY = {
     },
     examples: ['mandá un mail a través de la cuenta ramirovescostain@gmail.com a este mail ejemplo diciendo esto en el asunto Gracias y esto en el texto nos vemos pronto'],
     execute: (params) => {
-      let targetEmail = params.to;
-      const contact = state.contacts.find(c => c.name.toLowerCase() === targetEmail.toLowerCase());
+      let targetEmail = params.to || '';
+      const contact = state.contacts.find(c => c.name.trim().toLowerCase() === targetEmail.trim().toLowerCase());
       if (contact && contact.email) targetEmail = contact.email;
 
-      const encodedSub = encodeURIComponent(params.subject);
-      const encodedBody = encodeURIComponent(params.body);
+      const encodedSub = encodeURIComponent(params.subject || '');
+      const encodedBody = encodeURIComponent(params.body || '');
       const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(targetEmail)}&su=${encodedSub}&body=${encodedBody}`;
       const mailtoUrl = `mailto:${targetEmail}?subject=${encodedSub}&body=${encodedBody}`;
 
@@ -398,11 +415,13 @@ async function processCommand(prompt) {
   }
 
   if (!detected || !ACTION_REGISTRY[detected.actionId]) {
-    renderActionCard({
+    const errorCard = {
+      id: 'err_' + Date.now(),
       prompt: trimmed,
       unrecognized: true,
       message: 'No reconocí una acción concreta. Prueba diciendo: "mándale este mensaje a Agustina por WhatsApp que dice..." o "mandá un mail a través de la cuenta ramirovescostain@gmail.com a..."'
-    });
+    };
+    renderUnrecognizedCard(errorCard);
     return;
   }
 
@@ -423,14 +442,10 @@ async function processCommand(prompt) {
   if (state.history.length > 50) state.history.pop();
   saveToStorage(STORAGE_KEYS.HISTORY, state.history);
 
-  renderActionCard({
-    prompt: trimmed,
-    action,
-    params: detected.params,
-    execution
-  });
+  // Refrescar el feed completo
+  refreshFeed();
 
-  // Si tiene apertura directa activa y es WhatsApp o Email
+  // Si tiene apertura directa activa y es WhatsApp listo o Email
   if (state.settings.autoExecute) {
     if (action.id === 'send_whatsapp' && execution.data?.waUrl && execution.status === 'ready') {
       window.location.href = execution.data.waUrl;
@@ -478,30 +493,58 @@ async function callGeminiAPI(prompt, apiKey) {
   return null;
 }
 
-// 6. RENDERIZADO DE LA INTERFAZ
+// 6. RENDERIZADO DINÁMICO DEL FEED
 const feedContainer = document.getElementById('feedContainer');
 const emptyFeedPlaceholder = document.getElementById('emptyFeedPlaceholder');
 
-function renderActionCard(item) {
-  if (emptyFeedPlaceholder) emptyFeedPlaceholder.style.display = 'none';
-
-  const card = document.createElement('div');
-  card.className = 'action-card';
-
-  if (item.unrecognized) {
-    card.innerHTML = `
-      <div class="action-card-header">
-        <span class="action-badge general">🤖 Consulta</span>
-        <span class="status-pill failed">Sin acción clara</span>
-      </div>
-      <div class="prompt-echo">"${escapeHtml(item.prompt)}"</div>
-      <p style="font-size: 0.9rem; color: var(--text-secondary);">${escapeHtml(item.message)}</p>
-    `;
-    feedContainer.prepend(card);
+function refreshFeed() {
+  if (!state.history || state.history.length === 0) {
+    if (emptyFeedPlaceholder) emptyFeedPlaceholder.style.display = 'block';
+    feedContainer.innerHTML = '';
+    if (emptyFeedPlaceholder) feedContainer.appendChild(emptyFeedPlaceholder);
     return;
   }
 
-  const { action, params, execution, prompt } = item;
+  if (emptyFeedPlaceholder) emptyFeedPlaceholder.style.display = 'none';
+  feedContainer.innerHTML = '';
+
+  state.history.forEach(item => {
+    const action = ACTION_REGISTRY[item.actionId] || { name: item.actionName, category: 'general' };
+    
+    // RE-EVALUAR la acción con los contactos ACTUALES de la agenda
+    let execution = item.execution;
+    if (action.execute) {
+      execution = action.execute(item.params);
+      item.execution = execution; // actualizar en memoria
+    }
+
+    const card = createCardElement(item.id, item.prompt, action, item.params, execution);
+    feedContainer.appendChild(card);
+  });
+
+  saveToStorage(STORAGE_KEYS.HISTORY, state.history);
+}
+
+function renderUnrecognizedCard(item) {
+  if (emptyFeedPlaceholder) emptyFeedPlaceholder.style.display = 'none';
+  const card = document.createElement('div');
+  card.className = 'action-card';
+  card.innerHTML = `
+    <div class="action-card-header">
+      <span class="action-badge general">🤖 Consulta</span>
+      <span class="status-pill failed">Sin acción clara</span>
+    </div>
+    <div class="prompt-echo">"${escapeHtml(item.prompt)}"</div>
+    <p style="font-size: 0.9rem; color: var(--text-secondary);">${escapeHtml(item.message)}</p>
+  `;
+  feedContainer.prepend(card);
+}
+
+function createCardElement(id, prompt, action, params, execution) {
+  const card = document.createElement('div');
+  card.className = 'action-card';
+  card.id = `card_${id}`;
+
   let categoryIcon = '⚡';
   if (action.id === 'send_whatsapp') categoryIcon = '💬';
   if (action.id === 'send_email') categoryIcon = '✉️';
@@ -512,12 +555,13 @@ function renderActionCard(item) {
 
   let detailsHtml = '';
   let actionsHtml = '';
+  let inlineBoxHtml = '';
 
   if (action.id === 'send_whatsapp') {
     detailsHtml = `
       <div class="detail-item">
         <span class="detail-label">Destinatario</span>
-        <span class="detail-val">👤 ${escapeHtml(params.recipient)} ${execution.data?.phone ? `(${execution.data.phone})` : ''}</span>
+        <span class="detail-val">👤 ${escapeHtml(execution.data?.recipient || params.recipient)} ${execution.data?.phone ? `<strong style="color: #25d366;">(${execution.data.phone})</strong>` : ''}</span>
       </div>
       <div class="detail-item" style="grid-column: 1 / -1;">
         <span class="detail-label">Mensaje</span>
@@ -526,19 +570,41 @@ function renderActionCard(item) {
     `;
 
     if (execution.status === 'needs_phone') {
+      inlineBoxHtml = `
+        <div class="inline-phone-box">
+          <span class="inline-phone-label">📱 Ingresá el WhatsApp de <strong>${escapeHtml(params.recipient)}</strong> para enviar ahora:</span>
+          <div class="inline-phone-row">
+            <input type="tel" id="inline_phone_${id}" class="inline-phone-input" placeholder="ej: 1155551234 o +54911..." autofocus>
+            <button type="button" class="card-btn primary" onclick="saveInlinePhone('${id}', '${escapeHtml(params.recipient)}')">
+              Guardar y Enviar 🚀
+            </button>
+          </div>
+          <small class="note">Se guardará automáticamente en tu agenda para futuras órdenes.</small>
+        </div>
+      `;
+
       actionsHtml = `
-        <button class="card-btn primary" onclick="quickAddPhone('${escapeHtml(params.recipient)}')">
-          <span>+ Agregar Teléfono de ${escapeHtml(params.recipient)}</span>
+        <button type="button" class="card-btn primary" onclick="quickAddPhone('${escapeHtml(params.recipient)}')">
+          <span>+ Agregar en Agenda</span>
         </button>
         <a href="${execution.data.waUrl}" target="_blank" class="card-btn outline">
           <span>Abrir WhatsApp para elegir contacto</span> 💬
         </a>
+        <button type="button" class="card-btn outline" onclick="refreshFeed()">
+          <span>🔄 Actualizar orden</span>
+        </button>
       `;
     } else {
       actionsHtml = `
         <a href="${execution.data.waUrl}" class="card-btn whatsapp-btn">
           <span>Abrir WhatsApp Ahora</span> 💬
         </a>
+        <button type="button" class="card-btn outline" onclick="quickAddPhone('${escapeHtml(params.recipient)}')">
+          <span>✏️ Editar Contacto</span>
+        </button>
+        <button type="button" class="card-btn outline" onclick="refreshFeed()">
+          <span>🔄 Actualizar</span>
+        </button>
       `;
     }
   } else if (action.id === 'send_email') {
@@ -587,6 +653,7 @@ function renderActionCard(item) {
     <div class="action-details-grid">
       ${detailsHtml}
     </div>
+    ${inlineBoxHtml}
     <div class="action-card-footer">
       <div class="card-message-text">${escapeHtml(execution.message || '')}</div>
       <div class="card-actions">
@@ -595,17 +662,60 @@ function renderActionCard(item) {
     </div>
   `;
 
-  feedContainer.prepend(card);
+  return card;
 }
 
-// 7. INICIALIZACIÓN Y EVENTOS
+// 7. GUARDAR TELÉFONO DIRECTAMENTE DESDE LA TARJETA
+window.saveInlinePhone = function(historyId, recipientName) {
+  const inputEl = document.getElementById(`inline_phone_${historyId}`);
+  if (!inputEl) return;
+  const rawPhone = inputEl.value.trim();
+  if (!rawPhone) {
+    alert('Por favor escribe un número de teléfono celular');
+    inputEl.focus();
+    return;
+  }
+
+  // Buscar contacto insensible a mayúsculas
+  let contact = state.contacts.find(c => c.name.trim().toLowerCase() === recipientName.trim().toLowerCase());
+  if (contact) {
+    contact.phone = rawPhone;
+  } else {
+    contact = {
+      id: 'c_' + Date.now(),
+      name: recipientName.charAt(0).toUpperCase() + recipientName.slice(1),
+      phone: rawPhone,
+      email: '',
+      notes: 'Guardado desde la orden'
+    };
+    state.contacts.push(contact);
+  }
+
+  saveToStorage(STORAGE_KEYS.CONTACTS, state.contacts);
+  renderContacts();
+
+  // Actualizar inmediatamente todo el feed de órdenes
+  refreshFeed();
+
+  // Lanzar WhatsApp si está habilitado
+  const clean = cleanPhoneNumber(rawPhone, state.settings.defaultCountryCode);
+  const historyItem = state.history.find(h => h.id === historyId);
+  const msg = historyItem?.params?.message || 'Hola cómo estás';
+  const waUrl = `https://api.whatsapp.com/send?phone=${clean}&text=${encodeURIComponent(msg)}`;
+
+  if (state.settings.autoExecute) {
+    window.location.href = waUrl;
+  }
+};
+
+// 8. INICIALIZACIÓN Y EVENTOS
 document.addEventListener('DOMContentLoaded', () => {
   setupNavigation();
   setupSpeechRecognition();
   setupFormHandlers();
   renderContacts();
   renderActionsCatalog();
-  renderHistory();
+  refreshFeed();
   loadSettingsForm();
 });
 
@@ -622,6 +732,10 @@ function setupNavigation() {
       const targetId = btn.getAttribute('data-tab');
       const targetPane = document.getElementById(targetId);
       if (targetPane) targetPane.classList.add('active');
+
+      if (targetId === 'tab-commander') {
+        refreshFeed();
+      }
     });
   });
 }
@@ -702,7 +816,7 @@ function setupSpeechRecognition() {
   });
 }
 
-// 8. GESTIÓN DE CONTACTOS
+// 9. GESTIÓN DE CONTACTOS
 function renderContacts() {
   const container = document.getElementById('contactsList');
   if (!state.contacts.length) {
@@ -747,6 +861,7 @@ function openContactModal(contact = {}) {
   document.getElementById('contactNotes').value = contact.notes || '';
   document.getElementById('modalTitle').textContent = contact.id ? 'Editar Contacto' : 'Nuevo Contacto';
   document.getElementById('contactModal').classList.add('open');
+  document.getElementById('contactPhone').focus();
 }
 
 function closeContactModal() {
@@ -757,21 +872,29 @@ function closeContactModal() {
 function handleSaveContact(e) {
   e.preventDefault();
   const id = document.getElementById('contactId').value || 'c_' + Date.now();
+  const name = document.getElementById('contactName').value.trim();
+  const phone = document.getElementById('contactPhone').value.trim();
+  const email = document.getElementById('contactEmail').value.trim();
+  const notes = document.getElementById('contactNotes').value.trim();
+
   const contact = {
     id,
-    name: document.getElementById('contactName').value.trim(),
-    phone: document.getElementById('contactPhone').value.trim(),
-    email: document.getElementById('contactEmail').value.trim(),
-    notes: document.getElementById('contactNotes').value.trim()
+    name,
+    phone,
+    email,
+    notes
   };
 
-  const idx = state.contacts.findIndex(c => c.id === id);
-  if (idx >= 0) state.contacts[idx] = contact;
+  const idx = state.contacts.findIndex(c => c.id === id || c.name.trim().toLowerCase() === name.toLowerCase());
+  if (idx >= 0) state.contacts[idx] = { ...state.contacts[idx], ...contact };
   else state.contacts.push(contact);
 
   saveToStorage(STORAGE_KEYS.CONTACTS, state.contacts);
   renderContacts();
   closeContactModal();
+
+  // ACTUALIZAR INMEDIATAMENTE LAS ÓRDENES EXISTENTES EN EL FEED
+  refreshFeed();
 }
 
 window.editContact = function(id) {
@@ -784,14 +907,16 @@ window.deleteContact = function(id) {
   state.contacts = state.contacts.filter(c => c.id !== id);
   saveToStorage(STORAGE_KEYS.CONTACTS, state.contacts);
   renderContacts();
+  refreshFeed();
 };
 
 window.quickAddPhone = function(name) {
-  const c = state.contacts.find(x => x.name.toLowerCase() === name.toLowerCase()) || { name };
+  const c = state.contacts.find(x => x.name.trim().toLowerCase() === name.trim().toLowerCase()) 
+    || { name: name.charAt(0).toUpperCase() + name.slice(1), phone: '' };
   openContactModal(c);
 };
 
-// 9. AJUSTES Y CATÁLOGO
+// 10. AJUSTES Y CATÁLOGO
 function loadSettingsForm() {
   document.getElementById('defaultEmailSender').value = state.settings.defaultEmailSender || '';
   document.getElementById('defaultCountryCode').value = state.settings.defaultCountryCode || '+549';
@@ -839,20 +964,6 @@ function renderActionsCatalog() {
       ` : ''}
     </div>
   `).join('');
-}
-
-function renderHistory() {
-  if (state.history.length > 0) {
-    state.history.slice(0, 5).forEach(item => {
-      const action = ACTION_REGISTRY[item.actionId] || { name: item.actionName, category: 'general' };
-      renderActionCard({
-        prompt: item.prompt,
-        action,
-        params: item.params,
-        execution: item.execution
-      });
-    });
-  }
 }
 
 function escapeHtml(str) {
