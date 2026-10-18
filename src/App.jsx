@@ -6,14 +6,14 @@ import { PanalProgress } from './components/PanalProgress';
 import { CeldasPropositos } from './components/CeldasPropositos';
 import { DonationSection } from './components/DonationSection';
 import { MuroComunidad } from './components/MuroComunidad';
-import { MicaelInfoSection } from './components/MicaelInfoSection';
+import { RafaelInfoSection } from './components/RafaelInfoSection';
 import { AdminModal } from './components/AdminModal';
 import { Footer } from './components/Footer';
 
 export default function App() {
   // Cargar estado inicial o recuperar desde localStorage para persistencia local
   const [campaignData, setCampaignData] = useState(() => {
-    const saved = localStorage.getItem('la_colmena_campaign_data_v1');
+    const saved = localStorage.getItem('la_colmena_campaign_data_v2_rafael');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -29,7 +29,7 @@ export default function App() {
 
   // Guardar en localStorage ante cualquier cambio
   useEffect(() => {
-    localStorage.setItem('la_colmena_campaign_data_v1', JSON.stringify(campaignData));
+    localStorage.setItem('la_colmena_campaign_data_v2_rafael', JSON.stringify(campaignData));
   }, [campaignData]);
 
   // Calcular el total recaudado sumando las donaciones confirmadas
@@ -104,7 +104,7 @@ export default function App() {
         onDonateClick={() => scrollToDonation('general')}
       />
 
-      {/* Hero Principal con Sol de Micael y cuenta regresiva */}
+      {/* Hero Principal con Mirada de Rafael y cuenta regresiva */}
       <main className="flex-1">
         <HeroBanner 
           eventDate={campaignData.eventDate}
@@ -119,14 +119,14 @@ export default function App() {
           onDonateClick={() => scrollToDonation('general')}
         />
 
-        {/* Los 5 Propósitos del Panal de Micael */}
+        {/* Los 5 Propósitos del Panal de Rafael */}
         <CeldasPropositos 
           propositos={propositosConProgreso}
           onSelectProposito={(propId) => scrollToDonation(propId)}
         />
 
-        {/* Explicación de la Festividad de Micael y Fotos de la Comunidad */}
-        <MicaelInfoSection />
+        {/* Explicación de la Festividad de Rafael y Salud Comunitaria */}
+        <RafaelInfoSection />
 
         {/* Formulario y Métodos de Aporte Comunitario */}
         <DonationSection 

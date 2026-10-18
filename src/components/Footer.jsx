@@ -10,7 +10,7 @@ export function Footer() {
         <div className="space-y-3">
           <img 
             src="./logo-colmena.png" 
-            alt="Escuela La Colmena" 
+            alt="Comunidad La Colmena" 
             className="h-12 w-auto object-contain"
           />
           <p className="text-xs sm:text-sm text-[#3D2E24]/80 leading-relaxed font-medium">
@@ -25,7 +25,7 @@ export function Footer() {
         {/* Columna Fecha y Ubicación */}
         <div className="space-y-2 text-xs sm:text-sm">
           <h4 className="font-black text-sm uppercase tracking-wider text-[#B24016] mb-3">
-            Encuentro de la Kermess
+            Encuentro de la Feria
           </h4>
           <div className="flex items-center gap-2">
             <Calendar className="w-4 h-4 text-[#E5B837] shrink-0" />
@@ -57,10 +57,10 @@ export function Footer() {
 
       <div className="max-w-6xl mx-auto pt-6 border-t border-[#E5B837]/30 flex flex-col sm:flex-row items-center justify-between text-xs text-[#3D2E24]/60 gap-3 text-center sm:text-left">
         <div>
-          © {new Date().getFullYear()} Escuela y Comunidad La Colmena • Loma Verde, Escobar, Buenos Aires.
+          © {new Date().getFullYear()} Comunidad La Colmena • Loma Verde, Escobar, Buenos Aires.
         </div>
         <div className="flex items-center gap-2 font-medium">
-          <span>Tejido con amor para la Kermess de Micael</span>
+          <span>Tejido con amor para la Feria de Rafael</span>
           <Heart className="w-3.5 h-3.5 text-[#B24016] fill-current" />
           <span className="text-[#3D2E24]/30">•</span>
           <a href="./ia/" className="underline hover:text-[#B24016] text-[#B24016] font-semibold flex items-center gap-1">

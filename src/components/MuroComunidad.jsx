@@ -84,7 +84,7 @@ export function MuroComunidad({ donaciones, onAddSimpleMessage }) {
             />
             <textarea
               rows="2"
-              placeholder="Escribe tu mensaje de aliento para la Kermess..."
+              placeholder="Escribe tu mensaje de aliento para la Feria..."
               value={quickMsg}
               onChange={(e) => setQuickMsg(e.target.value)}
               required

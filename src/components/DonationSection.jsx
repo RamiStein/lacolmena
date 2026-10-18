@@ -62,7 +62,7 @@ export function DonationSection({
       amount: effectiveAmount,
       date: new Date().toISOString(),
       propositoId: targetPropId === 'general' ? null : targetPropId,
-      message: donorMessage.trim() || '¡Acompañando con amor la Kermess de Micael!',
+      message: donorMessage.trim() || '¡Acompañando con amor la Feria de Rafael y el cuidado comunitario!',
       isAnonymous: isAnonymous,
       confirmed: true,
     };
@@ -95,10 +95,10 @@ export function DonationSection({
   // Enlace para WhatsApp con mensaje pre-armado
   const whatsappUrl = submittedDonation 
     ? `https://wa.me/${bankDetails.whatsappNumber}?text=${encodeURIComponent(
-        `¡Hola Comunidad La Colmena! 👋 Acabo de registrar mi donación de ${formatMoney(submittedDonation.amount)} para la Kermess de Micael a nombre de "${submittedDonation.donorName}". ¡Aquí les adjunto el comprobante de transferencia! 🐝🍯`
+        `¡Hola Comunidad La Colmena! 👋 Acabo de registrar mi donación de ${formatMoney(submittedDonation.amount)} para la Feria de Rafael a nombre de "${submittedDonation.donorName}". ¡Aquí les adjunto el comprobante de transferencia! 🌿🍯`
       )}`
     : `https://wa.me/${bankDetails.whatsappNumber}?text=${encodeURIComponent(
-        `¡Hola Comunidad La Colmena! Quisiera consultar sobre las donaciones para la Kermess de Micael.`
+        `¡Hola Comunidad La Colmena! Quisiera consultar sobre las colaboraciones para la Feria de Rafael.`
       )}`;
 
   return (
@@ -125,10 +125,10 @@ export function DonationSection({
             </div>
 
             <h3 className="text-2xl font-black text-[#3D2E24] mb-2">
-              ¡Muchas Gracias por tu Fuerza!
+              ¡Muchas Gracias por tu Cuidado y Amor!
             </h3>
-            <p className="text-[#B24016] font-hand text-2xl font-bold mb-4">
-              "Una pequeña abeja hace la miel más dulce del bosque"
+            <p className="text-[#4A6B53] font-hand text-2xl font-bold mb-4">
+              "Donde hay encuentro fraterno y respeto por la tierra, allí florece la salud"
             </p>
 
             <div className="bg-[#FAF6E9] rounded-2xl p-4 border border-[#E5B837] mb-6 text-left text-sm space-y-2">
@@ -346,7 +346,7 @@ export function DonationSection({
                 <div>
                   <textarea
                     rows="2"
-                    placeholder="Escribí unas palabras de aliento o intención para la Kermess..."
+                    placeholder="Escribí unas palabras de aliento o intención para la Feria de Rafael..."
                     value={donorMessage}
                     onChange={(e) => setDonorMessage(e.target.value)}
                     className="w-full bg-white border-2 border-[#E5B837]/70 rounded-2xl py-2.5 px-4 text-sm font-medium text-[#3D2E24] placeholder:text-gray-400 focus:outline-none focus:border-[#B24016]"

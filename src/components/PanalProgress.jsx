@@ -27,7 +27,7 @@ export function PanalProgress({ targetAmount, totalRaised, donorsCount, onDonate
             <span className="text-3xl">🐝</span>
             <div>
               <h2 className="text-xl sm:text-2xl font-black text-[#3D2E24] tracking-tight">
-                El Panal de la Kermess
+                El Panal de la Feria
               </h2>
               <p className="text-xs sm:text-sm text-[#3D2E24]/70">
                 Progreso del fondo común comunitario
