@@ -1,0 +1,106 @@
+[
+  {
+    "id": "h_1791918868808_t4yh",
+    "timestamp": "2026-10-13T19:14:28.808Z",
+    "prompt": "m�ndale este mensaje a Agustina por WhatsApp que dice Hola c�mo est�s",
+    "actionId": "send_whatsapp",
+    "actionName": "Enviar mensaje de WhatsApp",
+    "params": {
+      "recipient": "Agustina",
+      "message": "Hola c�mo est�s"
+    },
+    "status": "pending_confirmation",
+    "executionResult": null,
+    "providerUsed": "heuristico_local"
+  },
+  {
+    "id": "h_1791918842979_qp6v",
+    "timestamp": "2026-10-13T19:14:02.979Z",
+    "prompt": "mandá un mail a través de la cuenta ramirovescostain@gmail.com a este mail ejemplo diciendo esto en el asunto y esto en el texto asunto Gracias texto nos vemos pronto",
+    "actionId": "send_email",
+    "actionName": "Enviar correo electrónico",
+    "params": {
+      "senderAccount": "ramirovescostain@gmail.com",
+      "to": "ejemplo@correo.com",
+      "subject": "Gracias",
+      "body": "nos vemos pronto"
+    },
+    "status": "pending_confirmation",
+    "executionResult": null,
+    "providerUsed": "heuristico_local"
+  },
+  {
+    "id": "h_1791918842971_812r",
+    "timestamp": "2026-10-13T19:14:02.971Z",
+    "prompt": "mándale este mensaje a Agustina por WhatsApp que dice Hola cómo estás",
+    "actionId": "send_whatsapp",
+    "actionName": "Enviar mensaje de WhatsApp",
+    "params": {
+      "recipient": "Agustina",
+      "message": "Hola cómo estás"
+    },
+    "status": "pending_confirmation",
+    "executionResult": null,
+    "providerUsed": "heuristico_local"
+  },
+  {
+    "id": "h_1791918824526_c0q0",
+    "timestamp": "2026-10-13T19:13:44.526Z",
+    "prompt": "mandá un mail a través de la cuenta ramirovescostain@gmail.com a este mail ejemplo diciendo esto en el asunto y esto en el texto asunto Gracias texto nos vemos pronto",
+    "actionId": "send_email",
+    "actionName": "Enviar correo electrónico",
+    "params": {
+      "senderAccount": "ramirovescostain@gmail.com",
+      "to": "ejemplo@correo.com",
+      "subject": "y esto en el",
+      "body": "asunto Gracias texto nos vemos pronto"
+    },
+    "status": "pending_confirmation",
+    "executionResult": null,
+    "providerUsed": "heuristico_local"
+  },
+  {
+    "id": "h_1791918824520_0dzn",
+    "timestamp": "2026-10-13T19:13:44.520Z",
+    "prompt": "mándale este mensaje a Agustina por WhatsApp que dice Hola cómo estás",
+    "actionId": "send_whatsapp",
+    "actionName": "Enviar mensaje de WhatsApp",
+    "params": {
+      "recipient": "Agustina",
+      "message": "Hola cómo estás"
+    },
+    "status": "pending_confirmation",
+    "executionResult": null,
+    "providerUsed": "heuristico_local"
+  },
+  {
+    "id": "h_1791918792649_wnrq",
+    "timestamp": "2026-10-13T19:13:12.649Z",
+    "prompt": "mandá un mail a través de la cuenta ramirovescostain@gmail.com a este mail ejemplo diciendo esto en el asunto y esto en el texto asunto Gracias texto nos vemos pronto",
+    "actionId": "send_email",
+    "actionName": "Enviar correo electrónico",
+    "params": {
+      "senderAccount": "ramirovescostain@gmail.com",
+      "to": "ramirovescostain@gmail.com",
+      "subject": "y esto en el",
+      "body": "asunto Gracias texto nos vemos pronto"
+    },
+    "status": "pending_confirmation",
+    "executionResult": null,
+    "providerUsed": "heuristico_local"
+  },
+  {
+    "id": "h_1791918792631_kjf4",
+    "timestamp": "2026-10-13T19:13:12.631Z",
+    "prompt": "mándale este mensaje a Agustina por WhatsApp que dice Hola cómo estás",
+    "actionId": "send_whatsapp",
+    "actionName": "Enviar mensaje de WhatsApp",
+    "params": {
+      "recipient": "Agustina",
+      "message": "Hola cómo estás"
+    },
+    "status": "pending_confirmation",
+    "executionResult": null,
+    "providerUsed": "heuristico_local"
+  }
+]

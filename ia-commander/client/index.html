@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CommandAI • Asistente de Acciones de IA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Barra Lateral -->
+    <aside class="sidebar">
+      <div class="logo-container">
+        <div class="logo-icon">⚡</div>
+        <div class="logo-text">
+          <h1>Command<span>AI</span></h1>
+          <p class="subtitle">Asistente Ejecutor de Acciones</p>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <button class="nav-btn active" data-tab="tab-commander">
+          <span class="icon">💬</span>
+          <span class="label">Comandante</span>
+        </button>
+        <button class="nav-btn" data-tab="tab-actions">
+          <span class="icon">🧩</span>
+          <span class="label">Catálogo de Acciones</span>
+        </button>
+        <button class="nav-btn" data-tab="tab-contacts">
+          <span class="icon">👥</span>
+          <span class="label">Agenda de Contactos</span>
+        </button>
+        <button class="nav-btn" data-tab="tab-settings">
+          <span class="icon">⚙️</span>
+          <span class="label">Configuración & Cuentas</span>
+        </button>
+      </nav>
+
+      <div class="system-status-box">
+        <div class="status-indicator online"></div>
+        <div class="status-info">
+          <div class="status-title">Motor Activo</div>
+          <div class="status-detail" id="activeEngineText">Heurístico Local (Instantáneo)</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Contenido Principal -->
+    <main class="main-content">
+      <!-- PESTAÑA: COMANDANTE -->
+      <section id="tab-commander" class="tab-pane active">
+        <header class="section-header">
+          <div>
+            <h2>Centro de Mando</h2>
+            <p>Escribe o dicta lo que necesitas hacer y la IA ejecutará la acción.</p>
+          </div>
+          <div class="header-tools">
+            <label class="toggle-control" title="Si está activo, abre y envía las acciones directamente sin preguntar">
+              <input type="checkbox" id="autoExecuteToggle" checked>
+              <span class="slider"></span>
+              <span class="toggle-label">Ejecución Inmediata</span>
+            </label>
+          </div>
+        </header>
+
+        <!-- Sugerencias rápidas -->
+        <div class="suggestions-wrapper">
+          <span class="suggestions-label">Prueba con 1 clic:</span>
+          <div class="suggestion-chips">
+            <button class="chip" data-cmd="mándale este mensaje a Agustina por WhatsApp que dice Hola cómo estás">
+              <span class="chip-icon">💬</span> WhatsApp a Agustina ("Hola cómo estás")
+            </button>
+            <button class="chip" data-cmd="mandá un mail a través de la cuenta ramirovescostain@gmail.com a este mail ejemplo@correo.com diciendo esto en el asunto Gracias y esto en el texto nos vemos pronto">
+              <span class="chip-icon">✉️</span> Enviar Email desde ramirovescostain@gmail.com
+            </button>
+            <button class="chip" data-cmd="crea un recordatorio para revisar la kermess a las 18:00">
+              <span class="chip-icon">⏰</span> Crear recordatorio
+            </button>
+            <button class="chip" data-cmd="anota que tengo que comprar miel y harina para la kermess">
+              <span class="chip-icon">📝</span> Guardar nota rápida
+            </button>
+          </div>
+        </div>
+
+        <!-- Feed de Acciones y Conversación -->
+        <div class="feed-container" id="feedContainer">
+          <div class="empty-feed-placeholder" id="emptyFeedPlaceholder">
+            <div class="placeholder-icon">🤖</div>
+            <h3>¿Qué acción deseas que realice hoy?</h3>
+            <p>Puedes pedirme enviar mensajes de WhatsApp, redactar y enviar correos, programar alarmas, tomar notas o abrir enlaces.</p>
+          </div>
+        </div>
+
+        <!-- Barra de Entrada de Comandos -->
+        <div class="input-container">
+          <form id="commandForm" class="command-form">
+            <button type="button" class="voice-btn" id="voiceBtn" title="Hablar por micrófono (Dictado de voz)">
+              <span class="mic-icon">🎙️</span>
+            </button>
+            <textarea 
+              id="promptInput" 
+              placeholder="Escribe tu orden (ej: 'mándale este mensaje a Agustina por WhatsApp que dice Hola cómo estás')..." 
+              rows="1"
+              autofocus
+            ></textarea>
+            <button type="submit" class="submit-btn" id="submitBtn">
+              <span>Enviar Orden</span>
+              <span class="send-icon">🚀</span>
+            </button>
+          </form>
+          <div class="input-hints">
+            <span>Presiona <strong>Enter</strong> para enviar • <strong>Shift + Enter</strong> para salto de línea</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- PESTAÑA: ACCIONES -->
+      <section id="tab-actions" class="tab-pane">
+        <header class="section-header">
+          <div>
+            <h2>Catálogo de Acciones</h2>
+            <p>Herramientas modulares que la IA tiene a su disposición para operar en tu computadora.</p>
+          </div>
+        </header>
+
+        <div class="actions-grid" id="actionsGrid">
+          <!-- Cargado dinámicamente -->
+        </div>
+
+        <!-- Guía para agregar más acciones -->
+        <div class="extensibility-guide">
+          <div class="guide-header">
+            <span class="badge">Arquitectura Abierta</span>
+            <h3>¿Cómo agregar nuevas acciones lentamente?</h3>
+            <p>El sistema cuenta con un <strong>Action Registry</strong> auto-descubrible. Para sumar una nueva acción (ej: Spotify, Calendario, Notion, Telegram), solo creas un archivo en <code>server/actions/</code>:</p>
+          </div>
+          <pre class="code-block"><code>// server/actions/spotify.action.js
+import { BaseAction } from '../registry/BaseAction.js';
+
+export default class SpotifyAction extends BaseAction {
+  constructor() {
+    super({
+      id: 'play_music',
+      name: 'Reproducir música',
+      description: 'Reproduce una canción o playlist en Spotify.',
+      parameters: {
+        type: 'object',
+        properties: {
+          track: { type: 'string', description: 'Nombre de la canción o artista' }
+        },
+        required: ['track']
+      }
+    });
+  }
+
+  async execute(params) {
+    // Tu lógica concreta aquí (API de Spotify, protocolo spotify:search:..., etc.)
+    return { success: true, message: `Reproduciendo ${params.track}` };
+  }
+}</code></pre>
+          <p class="guide-footer">¡Y listo! Al reiniciar el servidor o guardar el archivo, la IA aprende a usarla inmediatamente.</p>
+        </div>
+      </section>
+
+      <!-- PESTAÑA: CONTACTOS -->
+      <section id="tab-contacts" class="tab-pane">
+        <header class="section-header">
+          <div>
+            <h2>Agenda de Contactos</h2>
+            <p>Asocia nombres como "Agustina" a números de teléfono y direcciones de correo electrónico.</p>
+          </div>
+          <button class="primary-btn" id="btnAddContact">
+            <span>+ Agregar Contacto</span>
+          </button>
+        </header>
+
+        <div class="contacts-list" id="contactsList">
+          <!-- Renderizado dinámicamente -->
+        </div>
+      </section>
+
+      <!-- PESTAÑA: CONFIGURACIÓN -->
+      <section id="tab-settings" class="tab-pane">
+        <header class="section-header">
+          <div>
+            <h2>Configuración & Cuentas</h2>
+            <p>Conecta tus cuentas para que las acciones se ejecuten sin fricción.</p>
+          </div>
+        </header>
+
+        <form id="settingsForm" class="settings-form">
+          <!-- Cuenta Gmail -->
+          <div class="settings-card">
+            <div class="card-title">
+              <span class="card-icon">✉️</span>
+              <div>
+                <h3>Cuenta de Correo Gmail</h3>
+                <p>Configuración para el envío de mails desde tu cuenta personal.</p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Correo Remitente Predeterminado</label>
+              <input type="email" id="defaultEmailSender" value="ramirovescostain@gmail.com" required>
+            </div>
+
+            <div class="form-group">
+              <label>Contraseña de Aplicación de Google (16 dígitos)</label>
+              <div class="input-with-note">
+                <input type="password" id="smtpPass" placeholder="••••••••••••">
+                <small class="note">
+                  🔒 Para que la IA envíe correos 100% en segundo plano sin intervención manual, genera una <strong>Contraseña de Aplicación</strong> en tu cuenta de Google (<a href="https://myaccount.google.com/apppasswords" target="_blank" rel="noreferrer">myaccount.google.com/apppasswords</a>). Si lo dejas vacío, el asistente abrirá el borrador con los campos ya completos en Gmail Web listo para enviar.
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Teléfono / WhatsApp -->
+          <div class="settings-card">
+            <div class="card-title">
+              <span class="card-icon">💬</span>
+              <div>
+                <h3>Ajustes de WhatsApp</h3>
+                <p>Configuración para Argentina u otros países.</p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Prefijo telefónico predeterminado</label>
+              <input type="text" id="defaultCountryCode" value="+549" placeholder="+549">
+              <small class="note">Prefijo internacional para números locales (ej: +549 para celulares de Argentina).</small>
+            </div>
+          </div>
+
+          <!-- Motores de Inteligencia Artificial -->
+          <div class="settings-card">
+            <div class="card-title">
+              <span class="card-icon">🧠</span>
+              <div>
+                <h3>Cerebro de Inteligencia Artificial</h3>
+                <p>Elige si deseas usar el motor local instantáneo o conectar una API Key de Gemini / OpenAI.</p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Modo de Procesamiento</label>
+              <select id="activeProvider">
+                <option value="auto">Automático (Usa API Key si existe, sino Heurístico Local)</option>
+                <option value="heuristico">Heurístico Local (Rápido, 100% Privado, Sin API Key)</option>
+                <option value="gemini">Google Gemini 1.5/2.0 Flash</option>
+                <option value="openai">OpenAI GPT-4o-mini</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Google Gemini API Key (Opcional)</label>
+              <input type="password" id="geminiApiKey" placeholder="AIzaSy...">
+            </div>
+
+            <div class="form-group">
+              <label>OpenAI API Key (Opcional)</label>
+              <input type="password" id="openaiApiKey" placeholder="sk-proj-...">
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="primary-btn">
+              <span>Guardar Configuración</span>
+            </button>
+            <span class="save-status" id="settingsSaveStatus"></span>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal para Agregar/Editar Contacto -->
+  <div class="modal-overlay" id="contactModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modalTitle">Nuevo Contacto</h3>
+        <button class="close-btn" id="modalCloseBtn">✕</button>
+      </div>
+      <form id="contactForm">
+        <input type="hidden" id="contactId">
+        <div class="form-group">
+          <label>Nombre del contacto *</label>
+          <input type="text" id="contactName" placeholder="ej: Agustina" required>
+        </div>
+        <div class="form-group">
+          <label>Teléfono celular (WhatsApp)</label>
+          <input type="text" id="contactPhone" placeholder="ej: +5491155551234 o 1155551234">
+          <small class="note">Incluye código de área o prefijo para abrir WhatsApp directamente.</small>
+        </div>
+        <div class="form-group">
+          <label>Correo electrónico</label>
+          <input type="email" id="contactEmail" placeholder="ej: agustina@correo.com">
+        </div>
+        <div class="form-group">
+          <label>Notas</label>
+          <input type="text" id="contactNotes" placeholder="ej: Amiga, compañera, etc.">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="cancel-btn" id="modalCancelBtn">Cancelar</button>
+          <button type="submit" class="primary-btn">Guardar Contacto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

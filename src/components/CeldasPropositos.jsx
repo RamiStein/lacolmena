@@ -1,12 +1,12 @@
 import React from 'react';
-import { Palette, ShieldAlert, Wheat, Music, Sun, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Palette, Sprout, Wheat, Music, HeartHandshake, ArrowRight, CheckCircle2 } from 'lucide-react';
 
 const ICONS = {
+  Sprout,
   Palette,
-  ShieldAlert,
   Wheat,
   Music,
-  Sun,
+  HeartHandshake,
 };
 
 export function CeldasPropositos({ propositos, onSelectProposito }) {
@@ -21,21 +21,21 @@ export function CeldasPropositos({ propositos, onSelectProposito }) {
   return (
     <section id="propositos" className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
       <div className="text-center max-w-3xl mx-auto mb-10">
-        <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-[#B24016] bg-[#B24016]/10 px-3 py-1 rounded-full border border-[#B24016]/20">
-          Metas Específicas de la Kermess
+        <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-[#4A6B53] bg-[#4A6B53]/10 px-3.5 py-1 rounded-full border border-[#4A6B53]/25">
+          Ejes de Salud y Cuidado Comunitario
         </span>
         <h2 className="text-3xl sm:text-4xl font-black text-[#3D2E24] mt-3 mb-4">
-          Los 5 Propósitos del Panal
+          Los 5 Propósitos del Panal de Rafael
         </h2>
         <p className="text-sm sm:text-base text-[#3D2E24]/80 leading-relaxed font-medium">
-          Podés elegir a qué área querés destinar tu colaboración o dejar que la comunidad la asigne donde haga más falta. 
-          Cada meta cubre materiales tangibles para el disfrute de las infancias.
+          Elegí a qué área querés orientar tu gotita de néctar. Cada aporte financia directamente elementos 
+          tangibles para la salud integral, el herbolario, el arte terapéutico y el bienestar de nuestras infancias.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {propositos.map((prop) => {
-          const IconComponent = ICONS[prop.icon] || Palette;
+          const IconComponent = ICONS[prop.icon] || Sprout;
           const percentage = Math.min(Math.round((prop.raised / prop.target) * 100), 100);
           const isComplete = percentage >= 100;
 
@@ -66,16 +66,16 @@ export function CeldasPropositos({ propositos, onSelectProposito }) {
               btn: 'bg-[#466270] hover:bg-[#3a515e] text-[#FAF6E9]',
             }
           }[prop.color] || {
-            border: 'border-[#E5B837]',
-            badge: 'bg-[#E5B837]/20 text-[#85591d]',
-            bar: 'from-[#E5B837] to-[#ca9623]',
-            btn: 'bg-[#E5B837] text-[#3D2E24]',
+            border: 'border-[#4A6B53]',
+            badge: 'bg-[#4A6B53]/20 text-[#4A6B53]',
+            bar: 'from-[#77a47d] to-[#4A6B53]',
+            btn: 'bg-[#4A6B53] text-[#FAF6E9]',
           };
 
           return (
             <div 
               key={prop.id}
-              className={`bg-white/80 rounded-3xl p-6 border-2 ${colorStyles.border} shadow-warm flex flex-col justify-between hover:shadow-warm-lg transition-all duration-300 transform hover:-translate-y-1`}
+              className={`bg-white/85 rounded-3xl p-6 border-2 ${colorStyles.border} shadow-warm flex flex-col justify-between hover:shadow-warm-lg transition-all duration-300 transform hover:-translate-y-1`}
             >
               <div>
                 {/* Cabecera de la tarjeta con icono */}
@@ -84,7 +84,7 @@ export function CeldasPropositos({ propositos, onSelectProposito }) {
                     <IconComponent className="w-6 h-6" />
                   </div>
                   <span className={`text-xs font-black px-2.5 py-1 rounded-full ${colorStyles.badge} border`}>
-                    {percentage}% financiado
+                    {percentage}% alcanzado
                   </span>
                 </div>
 
@@ -125,7 +125,7 @@ export function CeldasPropositos({ propositos, onSelectProposito }) {
                     </>
                   ) : (
                     <>
-                      <span>Colaborar con esta meta</span>
+                      <span>Colaborar con este cuidado</span>
                       <ArrowRight className="w-4 h-4" />
                     </>
                   )}

@@ -1,7 +1,15 @@
 {
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/ia/(.*)",
+      "destination": "/ia/$1"
+    },
+    {
+      "source": "/ia",
+      "destination": "/ia/index.html"
+    },
+    {
+      "source": "/((?!ia/).*)",
       "destination": "/index.html"
     }
   ]

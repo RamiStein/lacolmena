@@ -1,0 +1,13 @@
+{
+  "defaultEmailSender": "ramirovescostain@gmail.com",
+  "smtpHost": "smtp.gmail.com",
+  "smtpPort": 465,
+  "smtpSecure": true,
+  "smtpUser": "ramirovescostain@gmail.com",
+  "smtpPass": "",
+  "geminiApiKey": "",
+  "openaiApiKey": "",
+  "autoExecute": false,
+  "defaultCountryCode": "+549",
+  "activeProvider": "auto"
+}

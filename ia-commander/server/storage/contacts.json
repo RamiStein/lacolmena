@@ -1,0 +1,16 @@
+[
+  {
+    "id": "c1",
+    "name": "Agustina",
+    "phone": "+5491100000000",
+    "email": "agustina@ejemplo.com",
+    "notes": "Contacto principal de WhatsApp"
+  },
+  {
+    "id": "c2",
+    "name": "Ramiro",
+    "phone": "",
+    "email": "ramirovescostain@gmail.com",
+    "notes": "Cuenta propia"
+  }
+]

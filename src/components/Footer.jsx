@@ -59,9 +59,13 @@ export function Footer() {
         <div>
           © {new Date().getFullYear()} Escuela y Comunidad La Colmena • Loma Verde, Escobar, Buenos Aires.
         </div>
-        <div className="flex items-center gap-1 font-medium">
+        <div className="flex items-center gap-2 font-medium">
           <span>Tejido con amor para la Kermess de Micael</span>
           <Heart className="w-3.5 h-3.5 text-[#B24016] fill-current" />
+          <span className="text-[#3D2E24]/30">•</span>
+          <a href="./ia/" className="underline hover:text-[#B24016] text-[#B24016] font-semibold flex items-center gap-1">
+            ⚡ Asistente de IA
+          </a>
         </div>
       </div>
     </footer>

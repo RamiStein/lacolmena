@@ -1,0 +1,28 @@
+{
+  "name": "ia-commander",
+  "version": "1.0.0",
+  "description": "Asistente de IA para comandar acciones concretas (WhatsApp, Email, etc.)",
+  "main": "server/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js"
+  },
+  "keywords": [
+    "ai",
+    "assistant",
+    "actions",
+    "whatsapp",
+    "gmail",
+    "automation"
+  ],
+  "author": "Ramiro",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "localtunnel": "^2.0.2",
+    "nodemailer": "^6.9.15"
+  }
+}
