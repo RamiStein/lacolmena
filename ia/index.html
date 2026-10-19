@@ -7,8 +7,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=2">
+  <link rel="stylesheet" href="./styles.css?v=3">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <!-- Firebase SDK para conexión directa en segundo plano con WhatsApp -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
   <div class="app-layout">
@@ -46,6 +49,14 @@
         <div class="status-info">
           <div class="status-title">Motor</div>
           <div class="status-detail" id="activeEngineText">IA Local (En Teléfono)</div>
+        </div>
+      </div>
+
+      <div class="system-status-box" style="margin-top: 8px;">
+        <div class="status-indicator online" id="waStatusDot"></div>
+        <div class="status-info">
+          <div class="status-title">WhatsApp Directo</div>
+          <div class="status-detail" id="waStatusText">Conectado (Sin salir)</div>
         </div>
       </div>
     </aside>
@@ -200,7 +211,22 @@ registerAction({
               </div>
             </div>
             <div class="form-group">
-              <label>Prefijo Telefónico</label>
+              <label>Modo de Envío</label>
+              <select id="whatsappSendMode">
+                <option value="direct">Envío Directo en Segundo Plano (Sin salir de la app)</option>
+                <option value="link">Abrir en App de WhatsApp (Enlace externo)</option>
+              </select>
+              <small class="note">Conectado a tu backend de WhatsApp en la PC (outbox).</small>
+            </div>
+            <div class="form-group">
+              <label>Línea / Espacio Emisor</label>
+              <select id="whatsappWorkspace">
+                <option value="personal">WhatsApp Personal (Ramiro)</option>
+                <option value="cob">Consultorio COB (Clínica)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Prefijo Telefónico Predeterminado</label>
               <input type="text" id="defaultCountryCode" value="+549" placeholder="+549">
               <small class="note">+549 para números de celular de Argentina.</small>
             </div>
@@ -277,6 +303,6 @@ registerAction({
     </div>
   </div>
 
-  <script src="./app.js?v=2"></script>
+  <script src="./app.js?v=3"></script>
 </body>
 </html>
