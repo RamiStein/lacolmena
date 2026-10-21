@@ -36,7 +36,7 @@ export function HeroBanner({ eventDate, onDonateClick }) {
         {/* Pastilla superior con fecha y temática */}
         <div className="inline-flex items-center gap-2 bg-[#4A6B53]/15 border border-[#4A6B53]/40 text-[#2B3A2F] px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold tracking-wide mb-6 shadow-sm">
           <Calendar className="w-4 h-4 text-[#4A6B53]" />
-          <span>SÁBADO 22 DE NOVIEMBRE • LOMA VERDE</span>
+          <span>VIERNES 20 Y SÁBADO 21 DE NOVIEMBRE • LOMA VERDE</span>
           <span className="text-[#4A6B53]">●</span>
           <span>SALUD, SANACIÓN Y CUIDADO COMUNITARIO</span>
         </div>
