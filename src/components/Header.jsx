@@ -30,7 +30,7 @@ export function Header({
       <header className="sticky top-0 z-40 bg-[#FAF6E9]/95 backdrop-blur-md border-b-2 border-[#E5B837]/40 shadow-xs transition-all">
         {/* Franja superior de aviso con las dos fechas oficiales */}
         <div className="bg-[#4A6B53] text-[#FAF6E9] text-xs font-semibold py-1.5 px-4 text-center flex items-center justify-center gap-2 tracking-wide overflow-x-auto whitespace-nowrap">
-          <span>🎪 <strong>Kermesse en La Colmena</strong></span>
+          <span>🌸 <strong>Festival de Primavera en La Colmena</strong></span>
           <span className="opacity-60">•</span>
           <span>🛠️ Vie 20 (Preparativos 14-18hs)</span>
           <span className="opacity-60">•</span>

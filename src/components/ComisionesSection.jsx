@@ -246,7 +246,7 @@ export function ComisionesSection({
                 <div className="mt-3">
                   <a
                     href={`https://wa.me/?text=${encodeURIComponent(
-                      `¡Hola! Me anoté como voluntario(a) para la comisión de ${successData.comisionNombre} en la Kermesse de La Colmena. Soy ${successData.nombre} y podré participar el ${successData.disponibilidad}. ¡Con alegría de construir juntos!`
+                      `¡Hola! Me anoté como voluntario(a) para la comisión de ${successData.comisionNombre} en el Festival de Primavera de La Colmena. Soy ${successData.nombre} y podré participar el ${successData.disponibilidad}. ¡Con alegría de construir juntos!`
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"

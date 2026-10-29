@@ -52,7 +52,7 @@ export function InicioSection({
       <section className="text-center max-w-4xl mx-auto pt-2 pb-8">
         {/* Pastilla Superior */}
         <div className="inline-flex items-center gap-2 bg-[#FAF6E9] border-2 border-[#E5B837] text-[#B24016] px-5 py-2 rounded-full text-xs sm:text-sm font-black tracking-wider mb-6 shadow-sm animate-pulse">
-          <span>🎪 SE ACERCA LA KERMESSE EN LA COLMENA 🎡</span>
+          <span>🌸 SE ACERCA EL FESTIVAL DE PRIMAVERA EN LA COLMENA 🎡</span>
         </div>
 
         {/* Título Principal */}
@@ -113,7 +113,7 @@ export function InicioSection({
               <span>De 13:00 a 18:00 hs</span>
             </div>
             <p className="text-xs sm:text-sm text-[#3D2E24]/80 leading-relaxed font-medium">
-              ¡La gran Kermesse en vivo! Juegos tradicionales, talleres artísticos, música acústica, buffet saludable, tómbola de premios y encuentro.
+              ¡El gran Festival de Primavera en vivo! Juegos tradicionales, talleres artísticos, música acústica, buffet saludable, tómbola de premios y encuentro.
             </p>
           </div>
         </div>
@@ -121,7 +121,7 @@ export function InicioSection({
         {/* Cuenta Regresiva */}
         <div className="my-6">
           <span className="text-xs font-bold uppercase tracking-wider text-[#3D2E24]/60 block mb-3">
-            Tiempo hasta el inicio de la Kermesse
+            Tiempo hasta el inicio del Festival de Primavera
           </span>
           <div className="flex items-center justify-center gap-3 sm:gap-5">
             <div className="bg-white border-2 border-[#E5B837] shadow-sm rounded-2xl p-3 min-w-[70px] sm:min-w-[85px] text-center">

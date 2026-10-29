@@ -1,6 +1,6 @@
-// Datos de la Kermesse Comunitaria en La Colmena
+// Datos del Festival de Primavera en La Colmena
 export const INITIAL_CAMPAIGN_DATA = {
-  title: "Kermesse en La Colmena",
+  title: "Festival de Primavera en La Colmena",
   subtitle: "Encontrarnos, trabajar en comunidad, tender redes, abrirnos al mundo, ser colmena",
   institution: "Comunidad La Colmena",
   location: "Los Aromos 3100, Loma Verde, Escobar",
@@ -22,7 +22,7 @@ export const INITIAL_CAMPAIGN_DATA = {
       id: "evento",
       dia: "Sábado 21 de Noviembre",
       horario: "13:00 a 18:00 hs",
-      titulo: "Día de la Kermesse",
+      titulo: "Día del Festival de Primavera",
       emoji: "🎪",
       descripcion: "¡Gran día de fiesta abierta a toda la comunidad! Juegos y talleres, buffet casero, música en vivo, rondas y puestos artesanales.",
       color: "huerta"

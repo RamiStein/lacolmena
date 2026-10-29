@@ -79,7 +79,7 @@ export function AdminModal({
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `donaciones_kermesse_colmena_${new Date().toISOString().slice(0,10)}.csv`);
+    link.setAttribute("download", `donaciones_festival_primavera_colmena_${new Date().toISOString().slice(0,10)}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -128,7 +128,7 @@ export function AdminModal({
               </div>
               <div>
                 <h3 className="text-xl sm:text-2xl font-black text-[#3D2E24]">
-                  Panel de Coordinación • Kermesse La Colmena
+                  Panel de Coordinación • Festival de Primavera La Colmena
                 </h3>
                 <p className="text-xs text-[#3D2E24]/70">
                   Gestión de voluntariados, libro de aportes y recaudación

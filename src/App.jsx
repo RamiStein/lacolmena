@@ -206,7 +206,7 @@ export default function App() {
                 🍯 FONDO COMUNITARIO Y PROPÓSITOS
               </span>
               <h2 className="text-3xl sm:text-4xl font-black text-[#3D2E24] mt-3">
-                El Panal de la Kermesse
+                El Panal del Festival de Primavera
               </h2>
               <p className="text-xs sm:text-sm text-[#3D2E24]/80 max-w-xl mx-auto mt-2">
                 Con tu colaboración adquirimos los insumos nobles para los talleres, juegos, música y sostenimiento del predio escolar.

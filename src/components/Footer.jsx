@@ -22,7 +22,7 @@ export function Footer({ onNavigate }) {
           </p>
         </div>
 
-        {/* Columna Horarios de la Kermesse */}
+        {/* Columna Horarios del Festival de Primavera */}
         <div className="space-y-2 text-xs sm:text-sm md:col-span-1">
           <h4 className="font-black text-sm uppercase tracking-wider text-[#B24016] mb-3">
             Cronograma del Encuentro
@@ -34,7 +34,7 @@ export function Footer({ onNavigate }) {
             </div>
             <div className="bg-white/80 p-2.5 rounded-xl border border-[#4A6B53]/30">
               <span className="font-bold text-[#4A6B53] block">🎪 Sábado 21 de Noviembre</span>
-              <span className="text-xs text-[#3D2E24]">Día de la Kermesse: 13 a 18 hs</span>
+              <span className="text-xs text-[#3D2E24]">Día del Festival de Primavera: 13 a 18 hs</span>
             </div>
           </div>
           <div className="flex items-center gap-2 pt-2 text-xs">
@@ -112,7 +112,7 @@ export function Footer({ onNavigate }) {
           © {new Date().getFullYear()} Comunidad La Colmena • Loma Verde, Escobar, Buenos Aires.
         </div>
         <div className="flex items-center gap-2 font-medium">
-          <span>Tejido con amor para la Kermesse en La Colmena</span>
+          <span>Tejido con amor para el Festival de Primavera en La Colmena</span>
           <Heart className="w-3.5 h-3.5 text-[#B24016] fill-current" />
           <span className="text-[#3D2E24]/30">•</span>
           <a href="./ia/" className="underline hover:text-[#B24016] text-[#B24016] font-semibold flex items-center gap-1">

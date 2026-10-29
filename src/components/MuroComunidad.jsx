@@ -119,7 +119,7 @@ export function MuroComunidad({ donaciones, onAddSimpleMessage }) {
               ¡El muro está abierto para recibir tus palabras!
             </h4>
             <p className="text-xs sm:text-sm text-[#3D2E24]/70 max-w-md mx-auto mb-4">
-              Sé de las primeras familias en dejar un mensaje de aliento, intención o dedicatoria para la kermesse comunitaria.
+              Sé de las primeras familias en dejar un mensaje de aliento, intención o dedicatoria para el Festival de Primavera comunitario.
             </p>
             <button
               onClick={() => setShowQuickForm(true)}
