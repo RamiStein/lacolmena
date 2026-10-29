@@ -2,7 +2,7 @@
 // El corazón late con pulso vivo y bombea sangre / calor vital a toda la colmena (panal).
 // Transmite la fuerza de la creación comunitaria y da paso a la presentación en Google Slides.
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Volume2, VolumeX, ArrowRight, Sparkles, Heart } from 'lucide-react';
 
 export function HeartBeatIntro({ onEnterPresentation }) {
@@ -12,7 +12,7 @@ export function HeartBeatIntro({ onEnterPresentation }) {
   const audioCtxRef = useRef(null);
 
   // Sintetizador orgánico de latido con Web Audio API (cero dependencias externas)
-  const playHeartBeatSound = () => {
+  const playHeartBeatSound = useCallback(() => {
     if (isMuted) return;
     try {
       if (!audioCtxRef.current) {
@@ -49,10 +49,10 @@ export function HeartBeatIntro({ onEnterPresentation }) {
       gain2.connect(ctx.destination);
       osc2.start(now + 0.18);
       osc2.stop(now + 0.41);
-    } catch (e) {
+    } catch (_err) {
       // Audio no disponible o bloqueado por el navegador
     }
-  };
+  }, [isMuted]);
 
   // Ciclo de latidos periódicos (cada 1.1s)
   useEffect(() => {
@@ -61,7 +61,7 @@ export function HeartBeatIntro({ onEnterPresentation }) {
     }, 1100);
 
     return () => clearInterval(beatInterval);
-  }, [isMuted]);
+  }, [playHeartBeatSound]);
 
   // Secuencia narrativa poética
   useEffect(() => {

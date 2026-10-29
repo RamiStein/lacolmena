@@ -25,9 +25,7 @@ import {
   ShieldCheck, 
   Sun,
   LayoutGrid,
-  Check,
-  Copy,
-  Printer
+  Check
 } from 'lucide-react';
 
 export function SlidesPresentation({ onReplayIntro }) {

@@ -10,10 +10,34 @@ import { RafaelInfoSection } from './components/RafaelInfoSection';
 import { MuroComunidad } from './components/MuroComunidad';
 import { AdminModal } from './components/AdminModal';
 import { Footer } from './components/Footer';
+import { OrganoDelCorazonApp } from './components/organo-del-corazon/OrganoDelCorazonApp';
 
 const VALID_TABS = ['inicio', 'comisiones', 'panal', 'sobre-rafael', 'muro'];
 
-export default function App() {
+// Detección de la URL de la propuesta del Órgano del Corazón
+function isOrganoCorazonRoute() {
+  if (typeof window === 'undefined') return false;
+  try {
+    const pathname = decodeURIComponent(window.location.pathname || '').toLowerCase().replace(/\/+$/, '');
+    const hash = decodeURIComponent(window.location.hash || '').toLowerCase();
+    const search = decodeURIComponent(window.location.search || '').toLowerCase();
+
+    const matchesName = (str) =>
+      str.includes('organo-del-corazon') ||
+      str.includes('organo_del_corazon') ||
+      str.includes('organodelcorazon') ||
+      str.includes('organo del corazon') ||
+      str.includes('organo-corazon') ||
+      str.includes('organo_corazon');
+
+    return matchesName(pathname) || matchesName(hash) || matchesName(search);
+  } catch (_err) {
+    return false;
+  }
+}
+
+// Aplicación Principal de la Escuela (Festival de Primavera)
+function PrimaveraApp() {
   // Determinar pestaña inicial según el hash de la URL si existe
   const getInitialTab = () => {
     const hash = window.location.hash.replace('#', '');
@@ -35,7 +59,7 @@ export default function App() {
       localStorage.removeItem('la_colmena_campaign_data_v2_rafael');
       localStorage.removeItem('la_colmena_campaign_data_v3_kermesse');
       localStorage.removeItem('la_colmena_campaign_data_real');
-    } catch (e) {
+    } catch (_e) {
       // ignore
     }
 
@@ -189,6 +213,7 @@ export default function App() {
             donorsCount={donorsCount}
             voluntariosCount={voluntariosCount}
             onNavigate={handleNavigate}
+            onSelectProposito={handleSelectProposito}
           />
         )}
 
@@ -284,4 +309,28 @@ export default function App() {
       />
     </div>
   );
+}
+
+// Router Principal que detecta la URL del Órgano del Corazón
+export default function App() {
+  const [isOrganoPage, setIsOrganoPage] = useState(() => isOrganoCorazonRoute());
+
+  useEffect(() => {
+    const handleUrlChange = () => {
+      setIsOrganoPage(isOrganoCorazonRoute());
+    };
+
+    window.addEventListener('popstate', handleUrlChange);
+    window.addEventListener('hashchange', handleUrlChange);
+    return () => {
+      window.removeEventListener('popstate', handleUrlChange);
+      window.removeEventListener('hashchange', handleUrlChange);
+    };
+  }, []);
+
+  if (isOrganoPage) {
+    return <OrganoDelCorazonApp />;
+  }
+
+  return <PrimaveraApp />;
 }
