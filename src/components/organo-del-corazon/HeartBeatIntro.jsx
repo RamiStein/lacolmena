@@ -1,14 +1,15 @@
 // HeartBeatIntro.jsx - Animación inmersiva del Órgano del Corazón
-// El corazón late con pulso vivo y bombea sangre / calor vital a toda la colmena (panal).
-// Transmite la fuerza de la creación comunitaria y da paso a la presentación en Google Slides.
+// Estética de Acuarela Viva (Watercolor Waldorf/Goetheana)
+// Dinámica de Fluidos: Vórtice Cardíaco y Banda Helicoidal Miocárdica (Efecto toalla escurrida)
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Volume2, VolumeX, ArrowRight, Sparkles, Heart } from 'lucide-react';
+import { Volume2, VolumeX, ArrowRight, Sparkles, Heart, Info, X } from 'lucide-react';
 
 export function HeartBeatIntro({ onEnterPresentation }) {
   const [phase, setPhase] = useState(0); // 0, 1, 2, 3
   const [isMuted, setIsMuted] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [showVortexModal, setShowVortexModal] = useState(false);
   const audioCtxRef = useRef(null);
 
   // Sintetizador orgánico de latido con Web Audio API (cero dependencias externas)
@@ -24,50 +25,50 @@ export function HeartBeatIntro({ onEnterPresentation }) {
       }
 
       const now = ctx.currentTime;
-      // Primer golpe (Lub) - Diástole
+      // Primer golpe (Lub) - Diástole / Vórtice de llenado
       const osc1 = ctx.createOscillator();
       const gain1 = ctx.createGain();
       osc1.type = 'sine';
-      osc1.frequency.setValueAtTime(62, now);
-      osc1.frequency.exponentialRampToValueAtTime(32, now + 0.14);
-      gain1.gain.setValueAtTime(0.35, now);
-      gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+      osc1.frequency.setValueAtTime(60, now);
+      osc1.frequency.exponentialRampToValueAtTime(30, now + 0.15);
+      gain1.gain.setValueAtTime(0.32, now);
+      gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.17);
       osc1.connect(gain1);
       gain1.connect(ctx.destination);
       osc1.start(now);
-      osc1.stop(now + 0.17);
+      osc1.stop(now + 0.18);
 
-      // Segundo golpe más potente (Dub) - Sístole bombeando a la colmena
+      // Segundo golpe más potente (Dub) - Sístole con torsión helicoidal
       const osc2 = ctx.createOscillator();
       const gain2 = ctx.createGain();
       osc2.type = 'sine';
-      osc2.frequency.setValueAtTime(54, now + 0.18);
-      osc2.frequency.exponentialRampToValueAtTime(28, now + 0.36);
-      gain2.gain.setValueAtTime(0.48, now + 0.18);
-      gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.40);
+      osc2.frequency.setValueAtTime(52, now + 0.20);
+      osc2.frequency.exponentialRampToValueAtTime(26, now + 0.40);
+      gain2.gain.setValueAtTime(0.50, now + 0.20);
+      gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
       osc2.connect(gain2);
       gain2.connect(ctx.destination);
-      osc2.start(now + 0.18);
-      osc2.stop(now + 0.41);
+      osc2.start(now + 0.20);
+      osc2.stop(now + 0.43);
     } catch (_err) {
       // Audio no disponible o bloqueado por el navegador
     }
   }, [isMuted]);
 
-  // Ciclo de latidos periódicos (cada 1.1s)
+  // Ciclo de latidos periódicos (cada 1.15s, ritmo natural vivo)
   useEffect(() => {
     const beatInterval = setInterval(() => {
       playHeartBeatSound();
-    }, 1100);
+    }, 1150);
 
     return () => clearInterval(beatInterval);
   }, [playHeartBeatSound]);
 
-  // Secuencia narrativa poética
+  // Secuencia narrativa poética y fisiológica
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase(1), 2200);
-    const t2 = setTimeout(() => setPhase(2), 5200);
-    const t3 = setTimeout(() => setPhase(3), 8500);
+    const t1 = setTimeout(() => setPhase(1), 2600);
+    const t2 = setTimeout(() => setPhase(2), 5800);
+    const t3 = setTimeout(() => setPhase(3), 9000);
 
     return () => {
       clearTimeout(t1);
@@ -91,37 +92,51 @@ export function HeartBeatIntro({ onEnterPresentation }) {
   };
 
   return (
-    <div className={`relative min-h-screen w-full overflow-hidden bg-[#180D09] text-[#FAF6E9] flex flex-col items-center justify-between transition-all duration-1000 ${
+    <div className={`relative min-h-screen w-full overflow-hidden bg-[#160B08] text-[#FAF6E9] flex flex-col items-center justify-between transition-all duration-1000 ${
       isTransitioning ? 'opacity-0 scale-105 pointer-events-none' : 'opacity-100 scale-100'
     }`}>
-      {/* Fondo con gradiente místico y calor vital */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(178,64,22,0.35)_0%,_rgba(229,184,55,0.12)_40%,_rgba(24,13,9,0.98)_75%)]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#B24016]/20 rounded-full blur-[120px] animate-pulse" />
+      {/* Fondo con textura de papel de acuarela húmedo y calor vital */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Halo central de calor espiritual y sangre arterial */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(178,64,22,0.40)_0%,_rgba(229,184,55,0.14)_38%,_rgba(22,11,8,0.98)_72%)]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-[#B24016]/25 rounded-full blur-[140px] animate-pulse" />
+        
+        {/* Manchas suaves de lavado de acuarela en esquinas */}
+        <div className="absolute -top-20 -left-20 w-80 h-80 rounded-full bg-[#E5B837]/10 blur-[90px]" />
+        <div className="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-[#7F1D1D]/25 blur-[100px]" />
       </div>
 
-      {/* Barra superior con controles sutiles */}
-      <header className="relative z-20 w-full max-w-6xl mx-auto px-6 py-6 flex items-center justify-between text-xs sm:text-sm text-[#FAF6E9]/70">
+      {/* 1. BARRA SUPERIOR CON CONTROLES */}
+      <header className="relative z-20 w-full max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-6 flex items-center justify-between text-xs sm:text-sm text-[#FAF6E9]/80 shrink-0">
         <div className="flex items-center gap-2">
           <div className="w-2.5 h-2.5 rounded-full bg-[#E5B837] animate-ping" />
-          <span className="tracking-widest uppercase font-semibold text-[#E5B837]/90 text-[11px] sm:text-xs">
+          <span className="tracking-widest uppercase font-semibold text-[#E5B837]/90 text-[10px] sm:text-xs font-display">
             La Colmena • Experiencia Evolutiva
           </span>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <button
+            onClick={() => setShowVortexModal(true)}
+            aria-label="Ver explicación de la dinámica de fluidos y el vórtice"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FAF6E9]/10 hover:bg-[#FAF6E9]/20 border border-[#FAF6E9]/15 text-[#FAF6E9] transition-all text-xs"
+          >
+            <Info className="w-3.5 h-3.5 text-[#E5B837]" />
+            <span className="hidden sm:inline">El Vórtice Cardíaco</span>
+          </button>
+
           <button
             onClick={toggleSound}
             aria-label="Activar o silenciar sonido del latido"
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FAF6E9]/10 hover:bg-[#FAF6E9]/20 border border-[#FAF6E9]/15 text-[#FAF6E9] transition-all text-xs"
           >
             {isMuted ? <VolumeX className="w-3.5 h-3.5 text-[#FAF6E9]/60" /> : <Volume2 className="w-3.5 h-3.5 text-[#E5B837]" />}
-            <span className="hidden sm:inline">{isMuted ? 'Activar latido sonoro' : 'Latido activo'}</span>
+            <span className="hidden sm:inline">{isMuted ? 'Activar sonido' : 'Latido activo'}</span>
           </button>
 
           <button
             onClick={handleStart}
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#B24016] hover:bg-[#9E3410] text-[#FAF6E9] font-medium shadow-lg shadow-[#B24016]/30 transition-all text-xs group"
+            className="flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#B24016] hover:bg-[#9E3410] text-[#FAF6E9] font-medium shadow-lg shadow-[#B24016]/30 transition-all text-xs group"
           >
             <span>Ver presentación</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -129,11 +144,11 @@ export function HeartBeatIntro({ onEnterPresentation }) {
         </div>
       </header>
 
-      {/* Escena Central: Corazón Biológico-Espiritual + Panal de La Colmena */}
-      <main className="relative z-10 flex-1 w-full flex flex-col items-center justify-center px-4 my-auto">
-        <div className="relative w-[340px] h-[340px] sm:w-[460px] sm:h-[460px] md:w-[540px] md:h-[540px] flex items-center justify-center">
+      {/* 2. ESCENA CENTRAL: CORAZÓN DE ACUARELA REAL + VÓRTICE HELICOIDAL + PANAL */}
+      <main className="relative z-10 flex-1 w-full flex flex-col items-center justify-center px-4 my-auto min-h-0">
+        <div className="relative w-[340px] h-[340px] sm:w-[440px] sm:h-[440px] md:w-[500px] md:h-[500px] flex items-center justify-center">
           
-          {/* MATRIZ DE HEXÁGONOS DE LA COLMENA (Reciben el bombeo de sangre) */}
+          {/* MATRIZ DE HEXÁGONOS DE LA COLMENA + CANALES HELICOIDALES */}
           <svg
             className="absolute inset-0 w-full h-full pointer-events-none"
             viewBox="0 0 500 500"
@@ -141,224 +156,385 @@ export function HeartBeatIntro({ onEnterPresentation }) {
             xmlns="http://www.w3.org/2000/svg"
           >
             <defs>
-              {/* Gradientes de la sangre / calor vital */}
-              <linearGradient id="arteryGrad" x1="250" y1="250" x2="100" y2="100" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stopColor="#E5B837" stopOpacity="0.9" />
-                <stop offset="50%" stopColor="#B24016" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#7F1D1D" stopOpacity="0.2" />
+              {/* FILTRO DE PIGMENTO DE ACUARELA HÚMEDA (Wet-on-wet watercolor) */}
+              <filter id="watercolorFilter" x="-20%" y="-20%" width="140%" height="140%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="4" result="noise" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+                <feGaussianBlur in="displaced" stdDeviation="0.6" result="softened" />
+                <feMerge>
+                  <feMergeNode in="softened" />
+                  <feMergeNode in="SourceGraphic" opacity="0.92" />
+                </feMerge>
+              </filter>
+
+              {/* Gradiente sanguíneo para el vórtice */}
+              <linearGradient id="vortexGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#FFF2B2" stopOpacity="0.95" />
+                <stop offset="35%" stopColor="#E5B837" stopOpacity="0.85" />
+                <stop offset="70%" stopColor="#B24016" stopOpacity="0.75" />
+                <stop offset="100%" stopColor="#80180B" stopOpacity="0.1" />
               </linearGradient>
 
+              {/* Gradiente de celda de panal bañada en calor de miel */}
               <radialGradient id="honeyCellGlow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#E5B837" stopOpacity="0.5" />
-                <stop offset="70%" stopColor="#B24016" stopOpacity="0.2" />
-                <stop offset="100%" stopColor="#180D09" stopOpacity="0" />
+                <stop offset="0%" stopColor="#E5B837" stopOpacity="0.55" />
+                <stop offset="65%" stopColor="#B24016" stopOpacity="0.25" />
+                <stop offset="100%" stopColor="#160B08" stopOpacity="0" />
               </radialGradient>
 
               {/* Patrón de hexágono reusable */}
               <path
                 id="hex"
-                d="M 0 -28 L 24.2 -14 L 24.2 14 L 0 28 L -24.2 14 L -24.2 -14 Z"
+                d="M 0 -26 L 22.5 -13 L 22.5 13 L 0 26 L -22.5 13 L -22.5 -13 Z"
                 strokeWidth="1.5"
               />
             </defs>
 
-            {/* Red de Canales Arteriales que conectan el centro con la colmena */}
-            <g className="arteries opacity-80">
-              {/* Vías cardinales de sangre viva */}
-              <line x1="250" y1="250" x2="110" y2="140" stroke="url(#arteryGrad)" strokeWidth="2.5" strokeDasharray="6 4" className="animate-pulse" />
-              <line x1="250" y1="250" x2="390" y2="140" stroke="url(#arteryGrad)" strokeWidth="2.5" strokeDasharray="6 4" className="animate-pulse" />
-              <line x1="250" y1="250" x2="100" y2="330" stroke="url(#arteryGrad)" strokeWidth="2.5" strokeDasharray="6 4" className="animate-pulse" />
-              <line x1="250" y1="250" x2="400" y2="330" stroke="url(#arteryGrad)" strokeWidth="2.5" strokeDasharray="6 4" className="animate-pulse" />
-              <line x1="250" y1="250" x2="250" y2="60"  stroke="url(#arteryGrad)" strokeWidth="2.5" strokeDasharray="6 4" className="animate-pulse" />
-              <line x1="250" y1="250" x2="250" y2="440" stroke="url(#arteryGrad)" strokeWidth="2.5" strokeDasharray="6 4" className="animate-pulse" />
+            {/* VÓRTICES Y ONDAS HELICOIDALES HACIA LA COLMENA */}
+            {/* La sangre viaja en espiral ondulante (dinámica de fluidos), no en línea recta */}
+            <g className="helical-channels">
+              {/* Vía Helicoidal hacia Pedagogía (Norte) */}
+              <path
+                d="M 250,170 Q 242,145 250,120 T 250,75"
+                fill="none"
+                stroke="url(#vortexGrad)"
+                strokeWidth="2.5"
+                className="animate-helical-flow"
+              />
+              {/* Vía Helicoidal hacia Fiestas (Noreste) */}
+              <path
+                d="M 290,210 Q 330,175 350,160 T 370,145"
+                fill="none"
+                stroke="url(#vortexGrad)"
+                strokeWidth="2.2"
+                className="animate-helical-flow"
+              />
+              {/* Vía Helicoidal hacia Familias (Noroeste) */}
+              <path
+                d="M 210,210 Q 170,175 150,160 T 130,145"
+                fill="none"
+                stroke="url(#vortexGrad)"
+                strokeWidth="2.2"
+                className="animate-helical-flow"
+              />
+              {/* Vía Helicoidal hacia Economía (Sureste) */}
+              <path
+                d="M 285,290 Q 325,320 350,335 T 370,355"
+                fill="none"
+                stroke="url(#vortexGrad)"
+                strokeWidth="2"
+                className="animate-helical-flow"
+              />
+              {/* Vía Helicoidal hacia El Campo (Suroeste) */}
+              <path
+                d="M 215,290 Q 175,320 150,335 T 130,355"
+                fill="none"
+                stroke="url(#vortexGrad)"
+                strokeWidth="2"
+                className="animate-helical-flow"
+              />
+              {/* Vía Helicoidal hacia Virtudes (Sur) */}
+              <path
+                d="M 250,330 Q 258,360 250,390 T 250,425"
+                fill="none"
+                stroke="url(#vortexGrad)"
+                strokeWidth="2.2"
+                className="animate-helical-flow"
+              />
+              {/* Vía hacia Saberes (Oeste) */}
+              <path
+                d="M 195,250 Q 140,242 105,250 T 70,250"
+                fill="none"
+                stroke="url(#vortexGrad)"
+                strokeWidth="1.8"
+                className="animate-helical-flow"
+              />
+              {/* Vía hacia Sostén (Este) */}
+              <path
+                d="M 305,250 Q 360,258 395,250 T 430,250"
+                fill="none"
+                stroke="url(#vortexGrad)"
+                strokeWidth="1.8"
+                className="animate-helical-flow"
+              />
             </g>
 
-            {/* Olas de pulsación de sangre que viajan por el panal */}
-            <circle cx="250" cy="250" r="90" stroke="#E5B837" strokeWidth="1.5" opacity="0.3" className="animate-ping" style={{ animationDuration: '2.2s' }} />
-            <circle cx="250" cy="250" r="160" stroke="#B24016" strokeWidth="1.5" opacity="0.2" className="animate-ping" style={{ animationDuration: '3.3s', animationDelay: '0.4s' }} />
-            <circle cx="250" cy="250" r="220" stroke="#E5B837" strokeWidth="1" opacity="0.15" className="animate-ping" style={{ animationDuration: '4.4s', animationDelay: '0.8s' }} />
+            {/* Espirales rotativas de fluidos que se desprenden del latido */}
+            <g transform="translate(250,250) scale(1.6)" className="opacity-40 animate-spin" style={{ animationDuration: '18s' }}>
+              <path
+                d="M 0,0 C 25,-15 50,-10 70,10 C 90,30 95,60 85,90"
+                fill="none"
+                stroke="#E5B837"
+                strokeWidth="1.2"
+                strokeDasharray="4 6"
+              />
+              <path
+                d="M 0,0 C -25,15 -50,10 -70,-10 C -90,-30 -95,-60 -85,-90"
+                fill="none"
+                stroke="#B24016"
+                strokeWidth="1.2"
+                strokeDasharray="4 6"
+              />
+            </g>
 
-            {/* Celdas Hexagonales de la Comunidad (Maestros, Familias, Niños, Tierra, Fiestas, Economía) */}
+            {/* Celdas Hexagonales de La Colmena */}
             <g className="hex-cells">
               {/* Celda Norte: Pedagogía y Maestros */}
-              <g transform="translate(250, 75)" className="transition-all duration-700">
-                <use href="#hex" fill="url(#honeyCellGlow)" stroke="#E5B837" strokeOpacity="0.7" />
+              <g transform="translate(250, 75)">
+                <use href="#hex" fill="url(#honeyCellGlow)" stroke="#E5B837" strokeOpacity="0.8" />
                 <text x="0" y="3" textAnchor="middle" fill="#FAF6E9" fontSize="8" fontWeight="bold" letterSpacing="1">PEDAGOGÍA</text>
               </g>
 
               {/* Celda Noreste: Fiestas y Encuentros */}
               <g transform="translate(370, 145)">
-                <use href="#hex" fill="url(#honeyCellGlow)" stroke="#E5B837" strokeOpacity="0.6" />
+                <use href="#hex" fill="url(#honeyCellGlow)" stroke="#E5B837" strokeOpacity="0.7" />
                 <text x="0" y="3" textAnchor="middle" fill="#FAF6E9" fontSize="8" fontWeight="bold" letterSpacing="1">FIESTAS</text>
               </g>
 
               {/* Celda Noroeste: Familias y Adultos */}
               <g transform="translate(130, 145)">
-                <use href="#hex" fill="url(#honeyCellGlow)" stroke="#E5B837" strokeOpacity="0.6" />
+                <use href="#hex" fill="url(#honeyCellGlow)" stroke="#E5B837" strokeOpacity="0.7" />
                 <text x="0" y="3" textAnchor="middle" fill="#FAF6E9" fontSize="8" fontWeight="bold" letterSpacing="1">FAMILIAS</text>
               </g>
 
               {/* Celda Sureste: Economía Fraterna */}
               <g transform="translate(370, 355)">
-                <use href="#hex" fill="url(#honeyCellGlow)" stroke="#E5B837" strokeOpacity="0.6" />
+                <use href="#hex" fill="url(#honeyCellGlow)" stroke="#E5B837" strokeOpacity="0.7" />
                 <text x="0" y="3" textAnchor="middle" fill="#FAF6E9" fontSize="8" fontWeight="bold" letterSpacing="1">ECONOMÍA</text>
               </g>
 
               {/* Celda Suroeste: Escuela en el Campo */}
               <g transform="translate(130, 355)">
-                <use href="#hex" fill="url(#honeyCellGlow)" stroke="#E5B837" strokeOpacity="0.6" />
+                <use href="#hex" fill="url(#honeyCellGlow)" stroke="#E5B837" strokeOpacity="0.7" />
                 <text x="0" y="3" textAnchor="middle" fill="#FAF6E9" fontSize="8" fontWeight="bold" letterSpacing="1">EL CAMPO</text>
               </g>
 
               {/* Celda Sur: Oficios y Virtudes */}
               <g transform="translate(250, 425)">
-                <use href="#hex" fill="url(#honeyCellGlow)" stroke="#E5B837" strokeOpacity="0.7" />
+                <use href="#hex" fill="url(#honeyCellGlow)" stroke="#E5B837" strokeOpacity="0.8" />
                 <text x="0" y="3" textAnchor="middle" fill="#FAF6E9" fontSize="8" fontWeight="bold" letterSpacing="1">VIRTUDES</text>
               </g>
 
-              {/* Celdas intermedias de soporte */}
-              <g transform="translate(190, 110)">
-                <use href="#hex" fill="none" stroke="#B24016" strokeOpacity="0.4" />
-              </g>
-              <g transform="translate(310, 110)">
-                <use href="#hex" fill="none" stroke="#B24016" strokeOpacity="0.4" />
-              </g>
+              {/* Celdas intermedias */}
               <g transform="translate(70, 250)">
-                <use href="#hex" fill="url(#honeyCellGlow)" stroke="#E5B837" strokeOpacity="0.5" />
+                <use href="#hex" fill="url(#honeyCellGlow)" stroke="#E5B837" strokeOpacity="0.6" />
                 <text x="0" y="3" textAnchor="middle" fill="#FAF6E9" fontSize="7" fontWeight="bold">SABERES</text>
               </g>
               <g transform="translate(430, 250)">
-                <use href="#hex" fill="url(#honeyCellGlow)" stroke="#E5B837" strokeOpacity="0.5" />
+                <use href="#hex" fill="url(#honeyCellGlow)" stroke="#E5B837" strokeOpacity="0.6" />
                 <text x="0" y="3" textAnchor="middle" fill="#FAF6E9" fontSize="7" fontWeight="bold">SOSTÉN</text>
-              </g>
-              <g transform="translate(190, 390)">
-                <use href="#hex" fill="none" stroke="#B24016" strokeOpacity="0.4" />
-              </g>
-              <g transform="translate(310, 390)">
-                <use href="#hex" fill="none" stroke="#B24016" strokeOpacity="0.4" />
               </g>
             </g>
           </svg>
 
-          {/* EL CORAZÓN LATIENDO VIVO (Animación Orgánica) */}
-          <div className="relative flex items-center justify-center animate-heart-lubdub">
-            {/* Halo radiante de calor espiritual */}
-            <div className="absolute w-44 h-44 sm:w-56 sm:h-56 rounded-full bg-gradient-to-tr from-[#B24016]/40 via-[#E5B837]/30 to-[#9E3410]/20 blur-2xl animate-pulse" />
+          {/* EL CORAZÓN DE ACUARELA CON TORSIÓN HELICOIDAL (Efecto toalla escurrida) */}
+          <div className="relative flex items-center justify-center animate-cardiac-wring">
+            
+            {/* Halo de calor vital irradiante */}
+            <div className="absolute w-48 h-48 sm:w-60 sm:h-60 rounded-full bg-gradient-to-tr from-[#B24016]/40 via-[#E5B837]/35 to-[#7F1D1D]/30 blur-2xl animate-pulse" />
 
-            {/* Estructura del Corazón en SVG de alta fidelidad orgánica */}
-            <div className="relative z-10 w-36 h-36 sm:w-48 sm:h-48 drop-shadow-[0_0_35px_rgba(229,184,55,0.45)]">
-              <svg viewBox="0 0 200 200" className="w-full h-full filter drop-shadow-[0_0_20px_rgba(178,64,22,0.8)]">
+            {/* ESTRUCTURA ANATÓMICA EN ACUARELA VIVA */}
+            <div className="relative z-10 w-44 h-44 sm:w-56 sm:h-56 drop-shadow-[0_0_35px_rgba(229,184,55,0.45)]">
+              <svg 
+                viewBox="0 0 240 240" 
+                className="w-full h-full filter drop-shadow-[0_0_22px_rgba(178,64,22,0.85)]"
+                style={{ overflow: 'visible' }}
+              >
                 <defs>
-                  {/* Gradiente vivo del músculo cardíaco */}
-                  <radialGradient id="myocardium" cx="40%" cy="35%" r="65%">
-                    <stop offset="0%" stopColor="#FF6B4A" />
-                    <stop offset="35%" stopColor="#D9381E" />
-                    <stop offset="70%" stopColor="#9E1E0B" />
-                    <stop offset="100%" stopColor="#4A0E05" />
+                  {/* Gradiente acuarela para masa ventricular */}
+                  <radialGradient id="ventricleWash" cx="42%" cy="46%" r="62%">
+                    <stop offset="0%" stopColor="#FF7A5C" stopOpacity="0.95" />
+                    <stop offset="28%" stopColor="#D9381E" stopOpacity="0.90" />
+                    <stop offset="60%" stopColor="#A82010" stopOpacity="0.92" />
+                    <stop offset="85%" stopColor="#6B1309" stopOpacity="0.95" />
+                    <stop offset="100%" stopColor="#3D0A05" stopOpacity="0.98" />
                   </radialGradient>
 
-                  {/* Vena / Aorta brillante */}
-                  <linearGradient id="vessels" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#FFE17D" />
-                    <stop offset="50%" stopColor="#E5B837" />
-                    <stop offset="100%" stopColor="#B24016" />
+                  {/* Gradiente acuarela para Aorta y grandes vasos */}
+                  <linearGradient id="aortaWatercolor" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#FFE699" stopOpacity="0.95" />
+                    <stop offset="30%" stopColor="#E5B837" stopOpacity="0.90" />
+                    <stop offset="70%" stopColor="#C44B1C" stopOpacity="0.88" />
+                    <stop offset="100%" stopColor="#8A230D" stopOpacity="0.95" />
                   </linearGradient>
 
-                  <filter id="innerGlow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feGaussianBlur stdDeviation="4" result="blur" />
-                    <feComposite in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowDiff" />
-                    <feFlood floodColor="#FFE89E" floodOpacity="0.6" />
-                    <feComposite in2="shadowDiff" operator="in" />
-                    <feComposite in2="SourceGraphic" operator="over" />
-                  </filter>
+                  {/* Mancha acuosa transparente para aurícula y base */}
+                  <radialGradient id="atriumWash" cx="30%" cy="30%" r="70%">
+                    <stop offset="0%" stopColor="#E26D5C" stopOpacity="0.85" />
+                    <stop offset="60%" stopColor="#9C201A" stopOpacity="0.88" />
+                    <stop offset="100%" stopColor="#5E110A" stopOpacity="0.95" />
+                  </radialGradient>
                 </defs>
 
-                {/* Arco de la Aorta Superior (Conecta a la cabeza/pedagogía) */}
-                <path
-                  d="M 85 45 C 85 20, 115 15, 125 35 C 132 48, 130 65, 128 75"
-                  fill="none"
-                  stroke="url(#vessels)"
-                  strokeWidth="12"
-                  strokeLinecap="round"
-                />
-                {/* Arteria pulmonar ramificada */}
-                <path
-                  d="M 68 55 C 68 35, 88 30, 96 45"
-                  fill="none"
-                  stroke="#C2410C"
-                  strokeWidth="8"
-                  strokeLinecap="round"
-                />
+                {/* GRUPO PRINCIPAL DEL CORAZÓN CON FILTRO DE ACUARELA */}
+                <g filter="url(#watercolorFilter)">
+                  
+                  {/* 1. VASOS SUPERIORES ANATÓMICOS EN ACUARELA */}
+                  {/* Vena Cava Superior */}
+                  <path
+                    d="M 72,42 C 72,28 85,25 90,38 C 93,46 92,62 88,72"
+                    fill="none"
+                    stroke="#8A3859"
+                    strokeWidth="11"
+                    strokeLinecap="round"
+                    opacity="0.85"
+                  />
 
-                {/* Cuerpo Anatómico-Simbólico del Corazón */}
-                <path
-                  d="M 100 178 C 82 160, 28 122, 28 78 C 28 46, 52 28, 80 28 C 94 28, 100 38, 100 38 C 100 38, 106 28, 120 28 C 148 28, 172 46, 172 78 C 172 122, 118 160, 100 178 Z"
-                  fill="url(#myocardium)"
-                  stroke="#FFD580"
-                  strokeWidth="1.5"
-                />
+                  {/* Cayado Aórtico (Arco de la Aorta) emergiendo en curva helicoidal */}
+                  <path
+                    d="M 108,70 C 108,35 146,24 162,50 C 172,66 168,85 160,98"
+                    fill="none"
+                    stroke="url(#aortaWatercolor)"
+                    strokeWidth="16"
+                    strokeLinecap="round"
+                  />
 
-                {/* Válvulas y surcos coronarios luminosos */}
-                <path
-                  d="M 100 45 Q 92 90 68 140"
-                  fill="none"
-                  stroke="url(#vessels)"
-                  strokeWidth="2.5"
-                  strokeOpacity="0.85"
-                />
-                <path
-                  d="M 105 70 Q 128 100 135 130"
-                  fill="none"
-                  stroke="url(#vessels)"
-                  strokeWidth="1.8"
-                  strokeOpacity="0.75"
-                />
+                  {/* Las 3 ramas arteriales del cayado aórtico (Tronco braquiocefálico, carótida, subclavia) */}
+                  <path d="M 124,36 L 122,18" stroke="url(#aortaWatercolor)" strokeWidth="5.5" strokeLinecap="round" />
+                  <path d="M 137,32 L 138,15" stroke="url(#aortaWatercolor)" strokeWidth="4.8" strokeLinecap="round" />
+                  <path d="M 150,34 L 154,18" stroke="url(#aortaWatercolor)" strokeWidth="4.5" strokeLinecap="round" />
 
-                {/* Sello Hexagonal Interior del Corazón (El Panal en el Alma) */}
-                <polygon
-                  points="100,75 114,83 114,99 100,107 86,99 86,83"
-                  fill="#E5B837"
-                  fillOpacity="0.35"
-                  stroke="#FFE17D"
-                  strokeWidth="1.5"
-                  className="animate-spin"
-                  style={{ transformOrigin: '100px 91px', animationDuration: '24s' }}
-                />
-                <circle cx="100" cy="91" r="3.5" fill="#FAF6E9" />
+                  {/* Tronco Pulmonar cruzando por delante */}
+                  <path
+                    d="M 88,80 C 85,55 110,48 122,65"
+                    fill="none"
+                    stroke="#B24016"
+                    strokeWidth="13"
+                    strokeLinecap="round"
+                    opacity="0.9"
+                  />
+
+                  {/* 2. AURÍCULAS (Fondos suaves de acuarela difuminada) */}
+                  {/* Aurícula Derecha */}
+                  <path
+                    d="M 52,80 C 42,95 45,120 60,132 C 68,125 72,105 70,88 Z"
+                    fill="url(#atriumWash)"
+                    opacity="0.9"
+                  />
+                  {/* Aurícula Izquierda / Orejuela */}
+                  <path
+                    d="M 160,86 C 176,96 178,118 165,130 C 156,122 152,104 156,90 Z"
+                    fill="url(#atriumWash)"
+                    opacity="0.85"
+                  />
+
+                  {/* 3. MASA VENTRICULAR ANATÓMICA (Acuarela Viva con Ápex orientado) */}
+                  {/* Cuerpo anatómico del miocardio con el ápice hacia abajo a la izquierda */}
+                  <path
+                    d="M 118,212 C 92,198 48,155 48,106 C 48,78 72,68 96,75 C 108,79 116,90 118,94 C 122,90 132,79 146,75 C 172,68 194,84 192,114 C 188,155 146,196 118,212 Z"
+                    fill="url(#ventricleWash)"
+                    stroke="#FFD180"
+                    strokeWidth="1.6"
+                    strokeOpacity="0.7"
+                  />
+
+                  {/* 4. LA BANDA MIOCÁRDICA HELICOIDAL (Fibras musculares en espiral de acuarela) */}
+                  {/* Pinceladas curvadas que muestran la estructura de toalla escurrida */}
+                  <path
+                    d="M 68,98 Q 110,130 118,206"
+                    fill="none"
+                    stroke="#FFD580"
+                    strokeWidth="3"
+                    strokeOpacity="0.65"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M 85,92 Q 125,125 124,198"
+                    fill="none"
+                    stroke="#FFA07A"
+                    strokeWidth="2.5"
+                    strokeOpacity="0.55"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M 166,104 Q 135,145 116,210"
+                    fill="none"
+                    stroke="#FFE17D"
+                    strokeWidth="2.8"
+                    strokeOpacity="0.6"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M 148,96 Q 124,136 112,190"
+                    fill="none"
+                    stroke="#FF8C69"
+                    strokeWidth="2"
+                    strokeOpacity="0.5"
+                    strokeLinecap="round"
+                  />
+
+                  {/* Manchas de pigmento concentrado de acuarela en el surco interventricular */}
+                  <ellipse cx="118" cy="148" rx="8" ry="24" fill="#4A0B05" opacity="0.4" transform="rotate(-15 118 148)" />
+                </g>
+
+                {/* 5. EL VÓRTICE CARDIACO VIVO (Torbellino en Espiral / Dinámica de Fluidos) */}
+                {/* Visualización translúcida del remolino tridimensional en el interior del ventrículo */}
+                <g className="cardiac-vortex-layer" opacity="0.95">
+                  {/* Espiral áurea / Remolino de flujo sanguíneo */}
+                  <path
+                    d="M 118,175 C 100,165 96,145 106,130 C 118,112 140,118 142,135 C 144,152 126,164 114,155 C 106,148 108,138 116,134 C 122,130 128,136 124,142"
+                    fill="none"
+                    stroke="url(#vortexGrad)"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    className="animate-vortex-spin"
+                  />
+
+                  {/* Segundo filamento del vórtice helicoidal ascendente hacia la aorta */}
+                  <path
+                    d="M 118,198 C 102,178 98,142 114,120 C 128,100 138,85 142,65"
+                    fill="none"
+                    stroke="#FFF2B2"
+                    strokeWidth="2"
+                    strokeDasharray="5 3"
+                    className="animate-pulse"
+                  />
+
+                  {/* Partículas de sangre en remolino centrípeto */}
+                  <circle cx="118" cy="142" r="3" fill="#FFF2B2" className="animate-ping" style={{ animationDuration: '1.4s' }} />
+                  <circle cx="110" cy="132" r="2" fill="#E5B837" className="animate-pulse" />
+                  <circle cx="128" cy="150" r="2" fill="#FF8C69" className="animate-pulse" />
+                </g>
               </svg>
             </div>
           </div>
         </div>
 
-        {/* SECUENCIA NARRATIVA EN TEXTO DINÁMICO */}
-        <div className="relative z-20 text-center max-w-2xl mx-auto mt-4 px-4 min-h-[140px] flex flex-col items-center justify-center">
+        {/* 3. SECUENCIA NARRATIVA EN TEXTO DINÁMICO */}
+        <div className="relative z-20 text-center max-w-2xl mx-auto mt-2 sm:mt-4 px-4 min-h-[140px] sm:min-h-[150px] flex flex-col items-center justify-center">
           {phase === 0 && (
             <div className="animate-fade-in-up space-y-2">
-              <span className="text-xs uppercase tracking-widest text-[#E5B837] font-semibold">
-                La Biología de la Comunidad
+              <span className="text-[10px] sm:text-xs uppercase tracking-widest text-[#E5B837] font-semibold font-display">
+                El Músculo Helicoidal Vivo
               </span>
               <p className="text-xl sm:text-2xl md:text-3xl font-display font-bold text-[#FAF6E9] leading-snug">
-                En el centro de todo organismo vivo,<br />
-                <span className="text-[#E5B837]">late un corazón que unifica y nutre.</span>
+                El corazón se contrae <span className="text-[#E5B837]">retorciéndose como una toalla mojada.</span>
+              </p>
+              <p className="text-xs sm:text-sm text-[#FAF6E9]/80 max-w-lg mx-auto">
+                Sus fibras helicoidales exprimen la sangre en una espiral tridimensional.
               </p>
             </div>
           )}
 
           {phase === 1 && (
             <div className="animate-fade-in-up space-y-2">
-              <span className="text-xs uppercase tracking-widest text-[#B24016] bg-[#FAF6E9]/10 px-3 py-1 rounded-full font-semibold">
-                El Latido de La Colmena
-              </span>
-              <p className="text-xl sm:text-2xl md:text-3xl font-display font-bold text-[#FAF6E9] leading-snug">
-                Este corazón bombea sangre, calor y vida<br />
-                <span className="text-[#F0C64B]">a cada celda y a cada familia del panal.</span>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E5B837]/20 border border-[#E5B837]/40 text-[#E5B837] text-[10px] sm:text-xs font-bold uppercase tracking-wider">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Dinámica de Fluidos • El Vórtice Cardíaco</span>
+              </div>
+              <p className="text-lg sm:text-2xl md:text-3xl font-display font-bold text-[#FAF6E9] leading-snug">
+                La sangre no sale en línea recta:<br />
+                <span className="text-[#F0C64B]">forma un torbellino en espiral que ahorra energía.</span>
+              </p>
+              <p className="text-xs sm:text-sm text-[#FAF6E9]/75 max-w-lg mx-auto">
+                Este vórtice vivo minimiza la fricción y evita el estancamiento de las fuerzas.
               </p>
             </div>
           )}
 
           {phase >= 2 && (
-            <div className="animate-fade-in-up space-y-3">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#B24016]/30 border border-[#E5B837]/40 text-[#E5B837] text-xs font-semibold uppercase tracking-wider">
+            <div className="animate-fade-in-up space-y-2.5">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#B24016]/30 border border-[#E5B837]/40 text-[#E5B837] text-[10px] sm:text-xs font-semibold uppercase tracking-wider font-display">
                 <Sparkles className="w-3.5 h-3.5 text-[#E5B837]" />
                 <span>La Fuerza Comunitaria</span>
               </div>
@@ -376,20 +552,20 @@ export function HeartBeatIntro({ onEnterPresentation }) {
         </div>
       </main>
 
-      {/* Barra de progreso inferior y botón directo de entrada */}
-      <footer className="relative z-20 w-full max-w-4xl mx-auto px-6 pb-8 pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      {/* 4. BARRA INFERIOR Y BOTÓN DIRECTO */}
+      <footer className="relative z-20 w-full max-w-4xl mx-auto px-4 sm:px-6 pb-6 pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
         <div className="text-center sm:text-left">
-          <p className="text-xs text-[#FAF6E9]/60">
+          <p className="text-xs text-[#FAF6E9]/70">
             Propuesta para compartir y trabajar junto a <strong className="text-[#FAF6E9]">Sebastián</strong>
           </p>
-          <p className="text-[11px] text-[#FAF6E9]/40">
+          <p className="text-[11px] text-[#FAF6E9]/45">
             Escuela La Colmena • Loma Verde, Escobar | 2026
           </p>
         </div>
 
         <button
           onClick={handleStart}
-          className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#E5B837] via-[#D3BD7B] to-[#E5B837] hover:brightness-110 text-[#3D2E24] font-display font-black text-sm tracking-wide shadow-xl shadow-[#E5B837]/20 flex items-center justify-center gap-2 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+          className="w-full sm:w-auto px-7 py-3 rounded-xl bg-gradient-to-r from-[#E5B837] via-[#D3BD7B] to-[#E5B837] hover:brightness-110 text-[#3D2E24] font-display font-black text-xs sm:text-sm tracking-wide shadow-xl shadow-[#E5B837]/20 flex items-center justify-center gap-2 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
         >
           <Heart className="w-4 h-4 text-[#B24016] fill-[#B24016]" />
           <span>Abrir Propuesta en Diapositivas</span>
@@ -397,25 +573,137 @@ export function HeartBeatIntro({ onEnterPresentation }) {
         </button>
       </footer>
 
-      {/* Estilos CSS específicos para la animación fisiológica del corazón y el flujo */}
+      {/* 5. MODAL PEDAGÓGICO: EL VÓRTICE CARDIACO Y LA BANDA HELICOIDAL */}
+      {showVortexModal && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200">
+          <div className="bg-[#24140F] border border-[#E5B837]/40 rounded-2xl max-w-lg w-full p-5 sm:p-6 text-[#FAF6E9] shadow-2xl relative">
+            <button
+              onClick={() => setShowVortexModal(false)}
+              className="absolute top-4 right-4 text-[#FAF6E9]/60 hover:text-[#FAF6E9] p-1 rounded-lg hover:bg-white/10"
+              aria-label="Cerrar ventana"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex items-center gap-2 mb-3">
+              <span className="w-3 h-3 rounded-full bg-[#E5B837] animate-ping" />
+              <h3 className="font-display font-black text-base sm:text-lg text-[#E5B837]">
+                1. El Flujo de la Sangre: El Vórtice Cardíaco
+              </h3>
+            </div>
+            
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#B24016] mb-3">
+              Dinámica de Fluidos y la Banda Miocárdica Helicoidal
+            </p>
+
+            <div className="space-y-3 text-xs sm:text-[13px] text-[#FAF6E9]/85 leading-relaxed">
+              <p>
+                Físicamente, cuando el corazón bombea sangre, las fibras de los ventrículos están dispuestas en una <strong>banda helicoidal</strong> (un giro en espiral o <em>helical band</em>).
+              </p>
+              <ul className="space-y-2 list-disc list-inside bg-black/30 p-3.5 rounded-xl border border-white/5">
+                <li>
+                  <strong>Torsión viva:</strong> Al contraerse, el corazón se exprime <em>"retorciéndose"</em> como cuando escurres una toalla mojada.
+                </li>
+                <li>
+                  <strong>El vórtice en espiral:</strong> Esto hace que la sangre no salga disparada en línea recta, sino que forma un <strong>vórtice o torbellino en espiral</strong> dentro del ventrículo.
+                </li>
+                <li>
+                  <strong>Ahorro y dinamismo:</strong> Este movimiento tridimensional en remolino minimiza la fricción, evita que la sangre se estanque y ahorra una enorme cantidad de energía física.
+                </li>
+                <li>
+                  <strong>Salida aórtica:</strong> Al salir hacia la aorta, viaja con un patrón helicoidal, impulsando la vitalidad hacia todo el organismo social.
+                </li>
+              </ul>
+              <p className="font-serif italic text-xs text-[#E5B837]/90 text-center pt-1">
+                «Lo que pulsa con tanta fuerza en este órgano es la fuerza creadora de la comunidad.»
+              </p>
+            </div>
+
+            <button
+              onClick={() => setShowVortexModal(false)}
+              className="w-full mt-4 py-2 rounded-xl bg-[#E5B837] text-[#3D2E24] font-display font-bold text-xs hover:bg-[#F0C64B] transition-colors"
+            >
+              Entendido
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ESTILOS CSS PARA LA TORSIÓN (TOALLA ESCURRIDA) Y EL FLUJO HELICOIDAL */}
       <style>{`
-        @keyframes heartLubDub {
-          0% { transform: scale(1); }
-          12% { transform: scale(1.14); filter: drop-shadow(0 0 35px rgba(229,184,55,0.7)); }
-          22% { transform: scale(0.98); }
-          34% { transform: scale(1.22); filter: drop-shadow(0 0 50px rgba(178,64,22,0.9)); }
-          48% { transform: scale(1); }
-          100% { transform: scale(1); }
+        /* Animación fisiológica de torsión cardíaca: wringing towel systole & untwist diastole */
+        @keyframes cardiacWring {
+          0% {
+            transform: scale(1) rotate(0deg) skewX(0deg);
+          }
+          15% {
+            /* Primer golpe (Lub): Torsión del ápex hacia un lado y la base hacia el otro */
+            transform: scale(0.92, 1.05) rotate(-3.5deg) skewX(-2.5deg);
+            filter: drop-shadow(0 0 32px rgba(229,184,55,0.7));
+          }
+          28% {
+            /* Retorcimiento máximo (efecto toalla mojada exprimida) */
+            transform: scale(0.86, 1.08) rotate(4deg) skewX(3deg);
+          }
+          40% {
+            /* Segundo golpe potente (Dub): Eyección helicoidal y succión diastólica */
+            transform: scale(1.10, 0.95) rotate(-1.5deg) skewX(-1deg);
+            filter: drop-shadow(0 0 55px rgba(178,64,22,0.9));
+          }
+          58% {
+            transform: scale(1) rotate(0deg) skewX(0deg);
+          }
+          100% {
+            transform: scale(1) rotate(0deg) skewX(0deg);
+          }
         }
 
-        .animate-heart-lubdub {
-          animation: heartLubDub 1.1s cubic-bezier(0.21, 0.61, 0.35, 1) infinite;
+        .animate-cardiac-wring {
+          animation: cardiacWring 1.15s cubic-bezier(0.22, 0.61, 0.36, 1) infinite;
+        }
+
+        /* Giro del vórtice dentro del ventrículo */
+        @keyframes vortexSpin {
+          0% {
+            transform: rotate(0deg);
+            transform-origin: 118px 145px;
+          }
+          100% {
+            transform: rotate(360deg);
+            transform-origin: 118px 145px;
+          }
+        }
+
+        .animate-vortex-spin {
+          animation: vortexSpin 3s linear infinite;
+        }
+
+        /* Flujo helicoidal ondulante en los canales de sangre */
+        @keyframes helicalFlow {
+          0% {
+            stroke-dasharray: 4 10;
+            stroke-dashoffset: 28;
+            opacity: 0.4;
+          }
+          50% {
+            stroke-dasharray: 8 6;
+            opacity: 0.95;
+          }
+          100% {
+            stroke-dasharray: 4 10;
+            stroke-dashoffset: 0;
+            opacity: 0.4;
+          }
+        }
+
+        .animate-helical-flow {
+          animation: helicalFlow 1.6s ease-in-out infinite;
         }
 
         @keyframes fadeInUp {
           from {
             opacity: 0;
-            transform: translateY(14px);
+            transform: translateY(12px);
           }
           to {
             opacity: 1;
