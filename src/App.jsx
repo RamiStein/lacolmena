@@ -34,17 +34,20 @@ export default function App() {
       localStorage.removeItem('la_colmena_campaign_data_v1');
       localStorage.removeItem('la_colmena_campaign_data_v2_rafael');
       localStorage.removeItem('la_colmena_campaign_data_v3_kermesse');
+      localStorage.removeItem('la_colmena_campaign_data_real');
     } catch (e) {
       // ignore
     }
 
-    const saved = localStorage.getItem('la_colmena_campaign_data_real');
+    const saved = localStorage.getItem('la_colmena_campaign_data_v144');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
         return {
           ...INITIAL_CAMPAIGN_DATA,
           ...parsed,
+          targetAmount: parsed.targetAmount || INITIAL_CAMPAIGN_DATA.targetAmount,
+          propositos: parsed.propositos || INITIAL_CAMPAIGN_DATA.propositos,
           comisiones: INITIAL_CAMPAIGN_DATA.comisiones,
           jornadas: INITIAL_CAMPAIGN_DATA.jornadas,
           eventDate: INITIAL_CAMPAIGN_DATA.eventDate,
@@ -74,7 +77,7 @@ export default function App() {
 
   // Guardar en localStorage ante cualquier cambio
   useEffect(() => {
-    localStorage.setItem('la_colmena_campaign_data_real', JSON.stringify(campaignData));
+    localStorage.setItem('la_colmena_campaign_data_v144', JSON.stringify(campaignData));
   }, [campaignData]);
 
   // Navegación fluida entre pestañas

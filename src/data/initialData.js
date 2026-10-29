@@ -92,7 +92,7 @@ export const INITIAL_CAMPAIGN_DATA = {
   // Voluntarios anotados en comisiones (inicia vacío para la campaña real)
   voluntarios: [],
 
-  targetAmount: 3800000, // Meta comunitaria global ($3.800.000)
+  targetAmount: 1440000, // Meta comunitaria global ($1.440.000)
   bankDetails: {
     bankName: "Banco Provincia / Cuenta DNI / Mercado Pago",
     accountHolder: "Asociación Civil Comunidad La Colmena",
@@ -107,7 +107,7 @@ export const INITIAL_CAMPAIGN_DATA = {
       title: "Herbolario, Tinturas y Botiquín Natural",
       icon: "Sprout",
       description: "Plantines medicinales biodinámicos (manzanilla, caléndula, lavanda, romero), aceites esenciales, alcohol de cereales y frascos para el taller de medicina casera y el botiquín vivo de la escuela.",
-      target: 750000,
+      target: 280000,
       raised: 0,
       color: "huerta",
     },
@@ -116,7 +116,7 @@ export const INITIAL_CAMPAIGN_DATA = {
       title: "Arte Terapéutico y Oficios de Armonía",
       icon: "Palette",
       description: "Acuarelas Stockmar para veladuras de color que serenan el alma, ceras de abejas tibias para modelar, lanas vellón teñidas con tintes de monte y maderas nobles para el trabajo sereno de los sentidos.",
-      target: 850000,
+      target: 320000,
       raised: 0,
       color: "miel",
     },
@@ -125,7 +125,7 @@ export const INITIAL_CAMPAIGN_DATA = {
       title: "Alquimia de la Cocina y Pan Saludable",
       icon: "Wheat",
       description: "Harinas integrales agroecológicas, masa madre viva, miel de abejas pura, frutos secos, hierbas digestivas e ingredientes limpios para elaborar alimentos vitales y el buffet consciente de la feria.",
-      target: 650000,
+      target: 260000,
       raised: 0,
       color: "miel",
     },
@@ -134,7 +134,7 @@ export const INITIAL_CAMPAIGN_DATA = {
       title: "Música Armónica, Rondas y Movimiento Curativo",
       icon: "Music",
       description: "Instrumentos acústicos nobles (arpa, cítaras, flautas de madera, cuencos y sikus), mantas de telar y rondas de euritmia pedagógica que invitan a la respiración y armonía corporal de niños y grandes.",
-      target: 800000,
+      target: 300000,
       raised: 0,
       color: "cielo",
     },
@@ -143,7 +143,7 @@ export const INITIAL_CAMPAIGN_DATA = {
       title: "Oasis de Sombra, Descanso y Abrazo Familiar",
       icon: "HeartHandshake",
       description: "Pérgolas y toldos de lino natural para cuidar del sol primaveral, rincones de reposo con fardos de pasto, flores de estación y espacios de escucha y bienestar para todas las familias.",
-      target: 750000,
+      target: 280000,
       raised: 0,
       color: "terracota",
     }

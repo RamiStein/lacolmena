@@ -14,7 +14,7 @@ export function AdminModal({
   onDeleteVoluntario 
 }) {
   const [activeAdminTab, setActiveAdminTab] = useState('comisiones'); // default a comisiones o donaciones
-  const [newTarget, setNewTarget] = useState(campaignData?.targetAmount || 3800000);
+  const [newTarget, setNewTarget] = useState(campaignData?.targetAmount || 1440000);
   const [showAddForm, setShowAddForm] = useState(false);
   const [manualName, setManualName] = useState('');
   const [manualAmount, setManualAmount] = useState('');
