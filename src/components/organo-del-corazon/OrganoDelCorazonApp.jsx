@@ -34,7 +34,7 @@ export function OrganoDelCorazonApp() {
   }, []);
 
   return (
-    <div className="w-full min-h-screen bg-[#180D09] text-[#FAF6E9] font-sans">
+    <div className={`w-full ${currentView === 'presentation' ? 'h-screen max-h-screen overflow-hidden' : 'min-h-screen'} bg-[#180D09] text-[#FAF6E9] font-sans`}>
       {currentView === 'intro' ? (
         <HeartBeatIntro 
           onEnterPresentation={() => {
