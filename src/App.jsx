@@ -28,7 +28,9 @@ function isOrganoCorazonRoute() {
       str.includes('organodelcorazon') ||
       str.includes('organo del corazon') ||
       str.includes('organo-corazon') ||
-      str.includes('organo_corazon');
+      str.includes('organo_corazon') ||
+      str.includes('organo') ||
+      str.includes('corazon');
 
     return matchesName(pathname) || matchesName(hash) || matchesName(search);
   } catch (_err) {

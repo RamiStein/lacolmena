@@ -19,6 +19,24 @@
       ]
     },
     {
+      "source": "/organo-del-corazon(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/organo_del_corazon(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    },
+    {
       "source": "/assets/(.*)",
       "headers": [
         {
@@ -38,7 +56,23 @@
       "destination": "/ia/index.html"
     },
     {
+      "source": "/organo-del-corazon/assets/(.*)",
+      "destination": "/assets/$1"
+    },
+    {
+      "source": "/organo_del_corazon/assets/(.*)",
+      "destination": "/assets/$1"
+    },
+    {
+      "source": "/organo-del-corazon/(.*)",
+      "destination": "/index.html"
+    },
+    {
       "source": "/organo-del-corazon",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/organo_del_corazon/(.*)",
       "destination": "/index.html"
     },
     {
