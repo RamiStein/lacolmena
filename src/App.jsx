@@ -29,7 +29,16 @@ export default function App() {
 
   // Cargar estado inicial o recuperar desde localStorage
   const [campaignData, setCampaignData] = useState(() => {
-    const saved = localStorage.getItem('la_colmena_campaign_data_v3_kermesse');
+    // Limpieza de claves de prueba anteriores
+    try {
+      localStorage.removeItem('la_colmena_campaign_data_v1');
+      localStorage.removeItem('la_colmena_campaign_data_v2_rafael');
+      localStorage.removeItem('la_colmena_campaign_data_v3_kermesse');
+    } catch (e) {
+      // ignore
+    }
+
+    const saved = localStorage.getItem('la_colmena_campaign_data_real');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -37,7 +46,6 @@ export default function App() {
           ...INITIAL_CAMPAIGN_DATA,
           ...parsed,
           comisiones: INITIAL_CAMPAIGN_DATA.comisiones,
-          voluntarios: parsed.voluntarios || INITIAL_CAMPAIGN_DATA.voluntarios,
           jornadas: INITIAL_CAMPAIGN_DATA.jornadas,
           eventDate: INITIAL_CAMPAIGN_DATA.eventDate,
         };
@@ -66,7 +74,7 @@ export default function App() {
 
   // Guardar en localStorage ante cualquier cambio
   useEffect(() => {
-    localStorage.setItem('la_colmena_campaign_data_v3_kermesse', JSON.stringify(campaignData));
+    localStorage.setItem('la_colmena_campaign_data_real', JSON.stringify(campaignData));
   }, [campaignData]);
 
   // Navegación fluida entre pestañas

@@ -112,7 +112,24 @@ export function MuroComunidad({ donaciones, onAddSimpleMessage }) {
 
       {/* Tarjetas de Donantes y Mensajes */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {donaciones.map((item) => (
+        {donaciones.length === 0 ? (
+          <div className="col-span-full bg-white/70 border-2 border-dashed border-[#E5B837] rounded-3xl p-8 sm:p-10 text-center">
+            <span className="text-4xl block mb-2">💌</span>
+            <h4 className="font-bold text-base text-[#3D2E24] mb-1">
+              ¡El muro está abierto para recibir tus palabras!
+            </h4>
+            <p className="text-xs sm:text-sm text-[#3D2E24]/70 max-w-md mx-auto mb-4">
+              Sé de las primeras familias en dejar un mensaje de aliento, intención o dedicatoria para la kermesse comunitaria.
+            </p>
+            <button
+              onClick={() => setShowQuickForm(true)}
+              className="bg-[#B24016] text-[#FAF6E9] px-5 py-2.5 rounded-full font-bold text-xs shadow-sm hover:bg-[#973410] transition-colors"
+            >
+              ✍️ Dejar un mensaje en el muro
+            </button>
+          </div>
+        ) : (
+          donaciones.map((item) => (
           <div
             key={item.id}
             className="bg-white/90 border border-[#E5B837]/50 rounded-3xl p-5 shadow-warm hover:shadow-warm-lg transition-all duration-300 flex flex-col justify-between relative group overflow-hidden"
@@ -152,7 +169,7 @@ export function MuroComunidad({ donaciones, onAddSimpleMessage }) {
               </span>
             </div>
           </div>
-        ))}
+        )))}
       </div>
     </section>
   );

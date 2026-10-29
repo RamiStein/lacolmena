@@ -89,45 +89,8 @@ export const INITIAL_CAMPAIGN_DATA = {
     }
   ],
 
-  // Voluntarios anotados en comisiones
-  voluntarios: [
-    {
-      id: "vol-1",
-      name: "Familia Gómez Benítez",
-      phone: "11-4455-6677",
-      comisionId: "buffet",
-      disponibilidad: "ambos",
-      message: "Llevamos tortas caseras y podemos estar atendiendo el mostrador.",
-      date: "2026-10-18T14:20:00"
-    },
-    {
-      id: "vol-2",
-      name: "Carla y Santi (Jardín)",
-      phone: "11-3322-1100",
-      comisionId: "ambientacion",
-      disponibilidad: "viernes",
-      message: "Disponibles el viernes a las 14 hs para colgar banderines y acomodar mesas.",
-      date: "2026-10-19T10:15:00"
-    },
-    {
-      id: "vol-3",
-      name: "Mateo (papá de Clara)",
-      phone: "11-6677-8899",
-      comisionId: "gestion-residuos",
-      disponibilidad: "sabado",
-      message: "Me sumo al equipo de reciclaje y cuidado de tachos verdes durante la tarde.",
-      date: "2026-10-20T16:00:00"
-    },
-    {
-      id: "vol-4",
-      name: "Valeria y Tomás",
-      phone: "11-2233-4455",
-      comisionId: "juegos-talleres",
-      disponibilidad: "sabado",
-      message: "Podemos coordinar la estación de pesca mágica o el tiro al blanco.",
-      date: "2026-10-21T09:30:00"
-    }
-  ],
+  // Voluntarios anotados en comisiones (inicia vacío para la campaña real)
+  voluntarios: [],
 
   targetAmount: 3800000, // Meta comunitaria global ($3.800.000)
   bankDetails: {
@@ -145,7 +108,7 @@ export const INITIAL_CAMPAIGN_DATA = {
       icon: "Sprout",
       description: "Plantines medicinales biodinámicos (manzanilla, caléndula, lavanda, romero), aceites esenciales, alcohol de cereales y frascos para el taller de medicina casera y el botiquín vivo de la escuela.",
       target: 750000,
-      raised: 590000,
+      raised: 0,
       color: "huerta",
     },
     {
@@ -154,7 +117,7 @@ export const INITIAL_CAMPAIGN_DATA = {
       icon: "Palette",
       description: "Acuarelas Stockmar para veladuras de color que serenan el alma, ceras de abejas tibias para modelar, lanas vellón teñidas con tintes de monte y maderas nobles para el trabajo sereno de los sentidos.",
       target: 850000,
-      raised: 680000,
+      raised: 0,
       color: "miel",
     },
     {
@@ -163,7 +126,7 @@ export const INITIAL_CAMPAIGN_DATA = {
       icon: "Wheat",
       description: "Harinas integrales agroecológicas, masa madre viva, miel de abejas pura, frutos secos, hierbas digestivas e ingredientes limpios para elaborar alimentos vitales y el buffet consciente de la feria.",
       target: 650000,
-      raised: 520000,
+      raised: 0,
       color: "miel",
     },
     {
@@ -172,7 +135,7 @@ export const INITIAL_CAMPAIGN_DATA = {
       icon: "Music",
       description: "Instrumentos acústicos nobles (arpa, cítaras, flautas de madera, cuencos y sikus), mantas de telar y rondas de euritmia pedagógica que invitan a la respiración y armonía corporal de niños y grandes.",
       target: 800000,
-      raised: 410000,
+      raised: 0,
       color: "cielo",
     },
     {
@@ -181,7 +144,7 @@ export const INITIAL_CAMPAIGN_DATA = {
       icon: "HeartHandshake",
       description: "Pérgolas y toldos de lino natural para cuidar del sol primaveral, rincones de reposo con fardos de pasto, flores de estación y espacios de escucha y bienestar para todas las familias.",
       target: 750000,
-      raised: 380000,
+      raised: 0,
       color: "terracota",
     }
   ],
@@ -217,66 +180,6 @@ export const INITIAL_CAMPAIGN_DATA = {
       desc: "Acondicionamiento de gazebos de sombra, descanso y sostenimiento del predio.",
     },
   ],
-  donaciones: [
-    {
-      id: "don-1",
-      donorName: "Familia Gómez Benítez (3er Grado)",
-      amount: 30000,
-      date: "2026-10-15T14:30:00",
-      propositoId: "herbolario-salud",
-      message: "¡Que la mirada sanadora de Rafael traiga salud, equilibrio y amor a todas nuestras familias!",
-      isAnonymous: false,
-      confirmed: true,
-    },
-    {
-      id: "don-2",
-      donorName: "Docentes de Jardín e Inicial",
-      amount: 45000,
-      date: "2026-10-14T11:20:00",
-      propositoId: "arte-terapia",
-      message: "Cuidando con ternura el calor anímico y el desarrollo libre y saludable de las infancias.",
-      isAnonymous: false,
-      confirmed: true,
-    },
-    {
-      id: "don-3",
-      donorName: "Abuelos de Clara y Mateo",
-      amount: 60000,
-      date: "2026-10-12T18:15:00",
-      propositoId: "ritmo-movimiento",
-      message: "Esperamos con ansias la música armónica, las rondas y el encuentro que tanto nos sana el corazón.",
-      isAnonymous: false,
-      confirmed: true,
-    },
-    {
-      id: "don-4",
-      donorName: "Familia Rossi",
-      amount: 15000,
-      date: "2026-10-10T09:45:00",
-      propositoId: "nutricion-cocina",
-      message: "¡Queremos aportar para que el alimento de la feria sea medicina viva para todos!",
-      isAnonymous: false,
-      confirmed: true,
-    },
-    {
-      id: "don-5",
-      donorName: "Aporte Anónimo",
-      amount: 30000,
-      date: "2026-10-08T16:10:00",
-      propositoId: "oasis-cuidado",
-      message: "Por un espacio que acoge, protege y acompaña el florecer de cada ser humano en Loma Verde.",
-      isAnonymous: true,
-      confirmed: true,
-    },
-    {
-      id: "don-6",
-      donorName: "Mariana y Facundo",
-      amount: 7500,
-      date: "2026-10-06T20:00:00",
-      propositoId: "herbolario-salud",
-      message: "Un granito de polen para los preparados y la huerta medicinal de la colmena.",
-      isAnonymous: false,
-      confirmed: true,
-    }
-  ]
+  // Registro de donaciones reales (inicia en $0 para la campaña real)
+  donaciones: []
 };
