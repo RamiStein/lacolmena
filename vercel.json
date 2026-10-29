@@ -38,6 +38,18 @@
       "destination": "/ia/index.html"
     },
     {
+      "source": "/organo-del-corazon",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/organo_del_corazon",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/organodelcorazon",
+      "destination": "/index.html"
+    },
+    {
       "source": "/((?!ia/).*)",
       "destination": "/index.html"
     }
