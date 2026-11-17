@@ -70,13 +70,24 @@ const DEFAULT_CONTACTS = [
     phone: '+54 9 11 4974-8673',
     email: 'cristian@ejemplo.com',
     notes: 'Miembro de la Colmena'
+  },
+  {
+    id: 'c4',
+    name: 'Vrde',
+    phone: '+54 9 11 2745-2476',
+    email: '',
+    notes: 'Vrde Club'
   }
 ];
 
 const KNOWN_PHONES = {
   'agustina': '+54 9 11 2649-5598',
   'ramiro': '+54 9 11 2745-2476',
-  'cristian': '+54 9 11 4974-8673'
+  'cristian': '+54 9 11 4974-8673',
+  'vrde': '+54 9 11 2745-2476',
+  'verde': '+54 9 11 2745-2476',
+  'vrde club': '+54 9 11 2745-2476',
+  'verde club': '+54 9 11 2745-2476'
 };
 
 const DEFAULT_SETTINGS = {
@@ -184,37 +195,179 @@ function cleanPhoneNumber(phone, defaultCountry = '+549') {
   return digits;
 }
 
+// Utilidades de comparación fonética y aproximada para contactos
+function normalizeStr(s) {
+  return (s || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
+}
+
+function consonantStem(s) {
+  return normalizeStr(s).replace(/[aeiou\s_-]/g, '');
+}
+
+function levenshteinDistance(a, b) {
+  const m = a.length, n = b.length;
+  const d = [];
+  for (let i = 0; i <= m; i++) d[i] = [i];
+  for (let j = 0; j <= n; j++) d[0][j] = j;
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost);
+    }
+  }
+  return d[m][n];
+}
+
+function scoreWordMatch(w1, w2) {
+  if (!w1 || !w2) return 0;
+  if (w1 === w2) return 1.0;
+  if (w1.length >= 3 && w2.length >= 3) {
+    if (consonantStem(w1) === consonantStem(w2)) return 0.95;
+    const dist = levenshteinDistance(w1, w2);
+    if (dist === 1 && Math.max(w1.length, w2.length) >= 4) return 0.85;
+    if (dist === 2 && Math.max(w1.length, w2.length) >= 6) return 0.75;
+  }
+  if (w1.includes(w2) || w2.includes(w1)) {
+    return Math.min(w1.length, w2.length) / Math.max(w1.length, w2.length) * 0.9;
+  }
+  return 0;
+}
+
+function findBestContact(query, contacts) {
+  if (!query || !contacts || contacts.length === 0) return null;
+  const qClean = normalizeStr(query);
+  const qDigits = query.replace(/\D/g, '');
+
+  // 1. Coincidencia por número de teléfono directo (si tiene al menos 6 dígitos)
+  if (qDigits.length >= 6) {
+    for (const c of contacts) {
+      const cDigits = (c.phone || '').replace(/\D/g, '');
+      if (cDigits && (cDigits.includes(qDigits) || qDigits.includes(cDigits))) {
+        return { contact: c, score: 1.0 };
+      }
+    }
+  }
+
+  // 2. Coincidencia exacta de nombre completo
+  for (const c of contacts) {
+    const cClean = normalizeStr(c.name);
+    if (cClean === qClean) {
+      return { contact: c, score: 1.0 };
+    }
+  }
+
+  // 3. Substring / Token matching inteligente (soporta "verde club" -> "Vrde", etc.)
+  const stopWords = ['club', 'de', 'la', 'el', 'los', 'las', 'por', 'a', 'en', 'al', 'del'];
+  const qTokens = qClean.split(/[\s,._-]+/).filter(t => t.length > 0 && !stopWords.includes(t));
+  let bestContact = null;
+  let bestScore = 0;
+
+  for (const c of contacts) {
+    const cClean = normalizeStr(c.name);
+    const cTokens = cClean.split(/[\s,._-]+/).filter(t => t.length > 0);
+
+    let maxContactScore = 0;
+
+    // Comparación de cadena completa
+    if (qClean.includes(cClean) || cClean.includes(qClean)) {
+      maxContactScore = Math.max(maxContactScore, 0.88);
+    }
+
+    // Comparación por consonantes (vrde = verde, etc.)
+    if (consonantStem(qClean) === consonantStem(cClean)) {
+      maxContactScore = Math.max(maxContactScore, 0.92);
+    }
+
+    // Comparación palabra por palabra
+    const tokensToTest = qTokens.length ? qTokens : qClean.split(/\s+/);
+    for (const qt of tokensToTest) {
+      for (const ct of cTokens) {
+        const s = scoreWordMatch(qt, ct);
+        if (s > maxContactScore) maxContactScore = s;
+      }
+    }
+
+    if (maxContactScore > bestScore) {
+      bestScore = maxContactScore;
+      bestContact = c;
+    }
+  }
+
+  if (bestScore >= 0.7) {
+    return { contact: bestContact, score: bestScore };
+  }
+
+  return null;
+}
+
+// Extractor robusto de destinatario y mensaje en órdenes verbales
+function parseWhatsAppPrompt(raw) {
+  let str = (raw || '').trim();
+
+  // Quitar verbos iniciales de orden
+  const actionPrefixRegex = /^(?:por\s+favor\s+)?(?:quiero\s+)?(?:mandarle(?:s)?|mándale|mandale|mandar|manda|enviarle(?:s)?|envíale|enviale|enviá|envia|enviar|escribirle(?:s)?|escribile|escribí|escribe|escribir)\s+(?:este\s+mensaje|un\s+mensaje|el\s+mensaje|mensaje|un\s+whatsapp|un\s+wsp|whatsapp|wsp)?\s*/i;
+
+  let stripped = str.replace(actionPrefixRegex, '');
+
+  let recipient = '';
+  let message = '';
+
+  // Delimitadores explícitos entre destinatario y mensaje
+  const delimiterRegex = /\s+(?:por\s+(?:whatsapp|wsp)\s+)?(?:diciendole|diciéndole|diciendo|decile\s+que|decile|dile\s+que|que\s+le\s+diga|que\s+dice|que\s+diga|con\s+el\s+texto|con\s+el\s+mensaje|poniendo|ponele|poné|mensaje\s*:|texto\s*:)\s+/i;
+
+  const delimMatch = stripped.match(delimiterRegex);
+
+  if (delimMatch) {
+    const delimIdx = delimMatch.index;
+    const beforeDelim = stripped.substring(0, delimIdx).trim();
+    const afterDelim = stripped.substring(delimIdx + delimMatch[0].length).trim();
+
+    recipient = beforeDelim.replace(/^(?:a|para|al|a\s+la)\s+/i, '').replace(/\s+por\s+(?:whatsapp|wsp)$/i, '').trim();
+    message = afterDelim;
+  } else {
+    // Si no hay delimitador verbal, probar formato: 'a [DESTINATARIO], [MENSAJE]' o 'a [DESTINATARIO] por whatsapp [MENSAJE]'
+    const toMatch = stripped.match(/^(?:a|para|al|a\s+la)\s+([^,]+?)(?:\s+por\s+(?:whatsapp|wsp))?\s*,\s*(.+)$/i)
+      || stripped.match(/^(?:a|para|al|a\s+la)\s+([A-Za-z0-9ÁÉÍÓÚáéíóúñÑ\s]+?)\s+(?:por\s+whatsapp\s+|por\s+wsp\s+)(.+)$/i);
+
+    if (toMatch) {
+      recipient = toMatch[1].trim();
+      message = toMatch[2].trim();
+    } else {
+      const simpleTo = stripped.match(/^(?:a|para|al|a\s+la)\s+([A-Za-z0-9ÁÉÍÓÚáéíóúñÑ]+(?:\s+[A-Za-z0-9ÁÉÍÓÚáéíóúñÑ]+)?)/i);
+      if (simpleTo) {
+        recipient = simpleTo[1].trim();
+        message = stripped.substring(simpleTo[0].length).trim();
+      }
+    }
+  }
+
+  // Limpiar comillas del mensaje
+  if (message) {
+    message = message.replace(/^["'«]+|["'»]+$/g, '').trim();
+    // Limpiar coletillas como "y que ese mensaje se mande", "y mándalo"
+    message = message.replace(/\s+y\s+(?:que\s+)?(?:ese\s+mensaje\s+)?(?:se\s+mande|se\s+envie|se\s+envíe|mándalo|mandalo|envialo|envíalo|lo\s+mandes|lo\s+envíes).*$/i, '').trim();
+  }
+
+  return { recipient, message };
+}
+
 // 2. PARSER SEMÁNTICO HEURÍSTICO LOCAL (Zero-Latency, 100% Offline)
 function parseCommandHeuristic(rawText, contacts) {
   const raw = rawText.trim();
   const lower = raw.toLowerCase();
 
   // A. WHATSAPP
-  if (lower.includes('whatsapp') || lower.includes('wsp') || lower.includes('wasap') || lower.includes('mensaje')) {
-    let recipient = '';
-    let message = '';
+  const isWhatsApp = lower.includes('whatsapp') || lower.includes('wsp') || lower.includes('wasap') || lower.includes('mensaje')
+    || /^(?:por\s+favor\s+)?(?:quiero\s+)?(?:mandarle|mándale|mandale|mandar|manda|enviarle|envíale|enviale|enviá|envia|enviar|escribirle|escribile|escribí|escribe|escribir)\s+(?:a|para|al|a\s+la)\s+/i.test(raw);
 
-    // Buscar destinatario: "a ramiro por WhatsApp", "para ramiro", "mandar mensaje a ramiro que dice..."
-    const toMatch = raw.match(/(?:a|para)\s+([A-ZÁÉÍÓÚa-záéíóú0-9_+]+)(?:\s+por\s+whatsapp|\s+en\s+whatsapp|\s+al\s+whatsapp|\s*,|\s+que\s+dice|\s+diciendo)/i)
-      || raw.match(/(?:whatsapp\s+(?:a|para)\s+)([A-ZÁÉÍÓÚa-záéíóú0-9_+]+)/i)
-      || raw.match(/(?:a|para)\s+([A-ZÁÉÍÓÚa-záéíóú0-9_+]+)/i);
-
-    if (toMatch) {
-      recipient = toMatch[1].trim();
-    }
-
-    // Buscar mensaje: "que dice Hola cómo estás", "diciendo...", "con el texto..."
-    const msgMatch = raw.match(/(?:que\s+dice|diciendo|con\s+el\s+texto|con\s+el\s+mensaje|mensaje\s*:|texto\s*:)\s+["'«]?([^"'»\n]+)["'»]?/i)
-      || raw.match(/(?:dice|diciendo)\s+["'«]?(.+)$/i);
-
-    if (msgMatch) {
-      message = msgMatch[1].trim();
-    } else {
-      message = raw.replace(/^(?:mándale|manda|mandar|enviar|escribile)\s+(?:este\s+mensaje|un\s+mensaje|mensaje)?\s*(?:a|para)?\s*[A-ZÁÉÍÓÚa-záéíóú0-9_+]+\s*(?:por\s+whatsapp)?\s*/i, '').trim();
-    }
-
-    // Limpiar coletillas verbales del comando ("y que ese mensaje se mande", "y mándalo", etc.)
-    message = message.replace(/\s+y\s+(?:que\s+)?(?:ese\s+mensaje\s+)?(?:se\s+mande|se\s+envie|se\s+envíe|mándalo|mandalo|envialo|envíalo|lo\s+mandes|lo\s+envíes).*$/i, '').trim();
+  if (isWhatsApp) {
+    const parsed = parseWhatsAppPrompt(raw);
+    let recipient = parsed.recipient;
+    let message = parsed.message;
 
     // Si aún no se encontró destinatario, comparar con agenda de contactos
     if (!recipient) {
@@ -226,12 +379,16 @@ function parseCommandHeuristic(rawText, contacts) {
       }
     }
 
+    // Resolver con findBestContact si coincide con algún contacto
+    const match = findBestContact(recipient, contacts);
+    const finalRecipient = match ? match.contact.name : recipient;
+
     if (recipient || message) {
       return {
         actionId: 'send_whatsapp',
         confidence: 0.95,
         params: {
-          recipient: recipient || 'Agustina',
+          recipient: finalRecipient || recipient || '',
           message: message || 'Hola cómo estás'
         }
       };
@@ -369,15 +526,13 @@ const ACTION_REGISTRY = {
       let rawPhone = '';
       const recipientName = (params.recipient || '').trim();
       
-      // Buscar contacto de manera insensible a mayúsculas/minúsculas
-      const contact = state.contacts.find(c => 
-        c.name.trim().toLowerCase() === recipientName.toLowerCase() ||
-        (c.phone && c.phone.replace(/[^\d]/g, '').includes(recipientName.replace(/[^\d]/g, '')))
-      );
+      // Buscar contacto de manera inteligente (exacto, consonantes vrde/verde, tokens, o número)
+      const contactMatch = findBestContact(recipientName, state.contacts);
+      const contact = contactMatch ? contactMatch.contact : null;
       
       if (contact && contact.phone && contact.phone.trim().length > 0) {
         rawPhone = contact.phone.trim();
-      } else if (/[\d]{7,}/.test(recipientName)) {
+      } else if (recipientName.replace(/\D/g, '').length >= 7) {
         rawPhone = recipientName;
       }
 
@@ -392,7 +547,7 @@ const ACTION_REGISTRY = {
         ? `whatsapp://send?phone=${cleanPhone}&text=${encodedMsg}`
         : `whatsapp://send?text=${encodedMsg}`;
 
-      const displayName = contact ? contact.name : recipientName;
+      const displayName = contact ? contact.name : (recipientName || 'Sin destinatario');
 
       return {
         success: true,
@@ -400,6 +555,7 @@ const ACTION_REGISTRY = {
         message: cleanPhone ? `Listo para enviar a ${displayName}` : `Aún no tenés registrado el teléfono de ${displayName}`,
         data: {
           recipient: displayName,
+          matchedContact: contact ? contact.name : null,
           phone: cleanPhone ? '+' + cleanPhone : '',
           rawPhone,
           cleanPhone,
@@ -628,6 +784,14 @@ function refreshFeed() {
   feedContainer.innerHTML = '';
 
   state.history.forEach(item => {
+    // Si la orden previa tenía send_whatsapp y prompt, re-parsear para arreglar destinatarios que antes caían en fallback
+    if (item.prompt && item.actionId === 'send_whatsapp') {
+      const reParsed = parseCommandHeuristic(item.prompt, state.contacts);
+      if (reParsed && reParsed.params) {
+        item.params = reParsed.params;
+      }
+    }
+
     const action = ACTION_REGISTRY[item.actionId] || { name: item.actionName, category: 'general' };
     
     // RE-EVALUAR la acción con los contactos ACTUALES de la agenda
@@ -662,7 +826,8 @@ function renderUnrecognizedCard(item) {
 function createCardElement(id, prompt, action, params, execution) {
   const card = document.createElement('div');
   card.className = 'action-card';
-  card.id = `card_${id}`;
+  card.id = id;
+  card.setAttribute('data-id', id);
 
   let categoryIcon = '⚡';
   if (action.id === 'send_whatsapp') categoryIcon = '💬';
@@ -808,7 +973,7 @@ function createCardElement(id, prompt, action, params, execution) {
 
 // 7. DESPACHO DIRECTO DE WHATSAPP VÍA BACKEND (OUTBOX DE FIRESTORE)
 window.dispatchWhatsAppOutbox = async function(historyId, rawPhone, message, recipientName) {
-  const card = document.getElementById(historyId);
+  const card = document.getElementById(historyId) || document.getElementById(`card_${historyId}`);
   const statusPill = card?.querySelector('.status-pill');
   const actionsContainer = card?.querySelector('.card-actions');
 
@@ -892,7 +1057,7 @@ window.dispatchWhatsAppOutbox = async function(historyId, rawPhone, message, rec
 };
 
 window.markCardAsSent = function(historyId, recipientName, cleanPhone, message) {
-  const card = document.getElementById(historyId);
+  const card = document.getElementById(historyId) || document.getElementById(`card_${historyId}`);
   if (!card) return;
 
   const statusPill = card.querySelector('.status-pill');
